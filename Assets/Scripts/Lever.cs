@@ -8,6 +8,8 @@ namespace ToyRoom
     public class Lever : MonoBehaviour
     {
 
+        public Car carInstance;
+
         private Animator animator;
         private bool isUnlocked;
         private bool isPulledLeft;
@@ -38,6 +40,7 @@ namespace ToyRoom
             if (isUnlocked)
             {
                 isPulledLeft = !isPulledLeft;
+                carInstance.ToggleTrack();
             }
         }
 

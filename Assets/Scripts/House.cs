@@ -8,6 +8,9 @@ namespace ToyRoom
     public class House : Toy
     {
 
+        public Material lightsOnMat;
+        public Material lightsOffMat;
+        public List<MeshRenderer> windowObjects;
         private Animator animator;
         private bool isOpen;
         private bool isOn;
@@ -32,17 +35,20 @@ namespace ToyRoom
 
         public void ToggleHouseOpen()
         {
-            if (isOpen)
+            if (isOn)
             {
-                animator.SetTrigger("Close");
-            }
-            else
-            {
-                animator.SetTrigger("Open");
-            }
+                if (isOpen)
+                {
+                    animator.SetTrigger("Close");
+                }
+                else
+                {
+                    animator.SetTrigger("Open");
+                }
 
-            isOpen = !isOpen;
-            animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = isOpen;
+                isOpen = !isOpen;
+                animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = isOpen;
+            }
         }
 
         public bool IsOn
@@ -51,9 +57,23 @@ namespace ToyRoom
             set
             {
                 isOn = value;
-                if (!isOn && isOpen)
+                if (isOn)
                 {
-                    animator.SetTrigger("Close");
+                    foreach(MeshRenderer window in windowObjects)
+                    {
+                        window.material = lightsOnMat;
+                    }
+                }
+                else {
+                    foreach (MeshRenderer window in windowObjects)
+                    {
+                        window.material = lightsOffMat;
+                    }
+
+                    if (isOpen)
+                    {
+                        animator.SetTrigger("Close");
+                    }
                 }
             }
         }
