@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ToyRoom.unity
-    guid: d4d94c4d5ba0c18489f436833478458b
-  - enabled: 1
     path: Assets/Scenes/ExhibitTest.unity
     guid: c9ca9ded4d1945f4cb829ccbaf0251cf
+  - enabled: 1
+    path: Assets/Scenes/ToyRoom.unity
+    guid: d4d94c4d5ba0c18489f436833478458b

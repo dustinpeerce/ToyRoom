@@ -10,11 +10,13 @@ namespace ToyRoom
 
         private Animator animator;
         private bool isOpen;
+        private bool isOn;
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
             isOpen = false;
+            isOn = false;
 
             canSeeToyKey = GameVals.AnimatorParameterKeys.canSeeHouse;
             animatorParamDictionary = new Dictionary<string, bool>();
@@ -41,6 +43,19 @@ namespace ToyRoom
 
             isOpen = !isOpen;
             animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = isOpen;
+        }
+
+        public bool IsOn
+        {
+            get { return isOn; }
+            set
+            {
+                isOn = value;
+                if (!isOn && isOpen)
+                {
+                    animator.SetTrigger("Close");
+                }
+            }
         }
 
     }
