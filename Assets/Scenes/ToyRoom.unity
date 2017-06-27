@@ -1472,12 +1472,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1426480059 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1778859742157706, guid: f52f23b8f4335e946b9cc69b850ea4f4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1975500874}
 --- !u!114 &1426480061 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114816968499705932, guid: f52f23b8f4335e946b9cc69b850ea4f4,
     type: 2}
   m_PrefabInternal: {fileID: 1975500874}
   m_Script: {fileID: 11500000, guid: 68f49f894d1a0044f854348f4a27090d, type: 3}
+--- !u!54 &1426480063
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1426480059}
+  serializedVersion: 2
+  m_Mass: 0.1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!23 &1465068822 stripped
 MeshRenderer:
   m_PrefabParentObject: {fileID: 23943368244986730, guid: 69c80a0fe9306af4ba4feedddc36d410,
@@ -1726,7 +1746,6 @@ GameObject:
   - component: {fileID: 1620435729}
   - component: {fileID: 1620435728}
   - component: {fileID: 1620435727}
-  - component: {fileID: 1620435732}
   m_Layer: 0
   m_Name: LightSwitch
   m_TagString: Untagged
@@ -1806,27 +1825,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1620435726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.96, y: 5.131, z: 2.952}
-  m_LocalScale: {x: 0.5290821, y: 0.09111172, z: 0.5290821}
+  m_LocalPosition: {x: -0.96, y: 5.131, z: 2.864}
+  m_LocalScale: {x: 0.5290821, y: 0.09111172, z: 0.6551423}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1620435732
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1620435726}
-  serializedVersion: 2
-  m_Mass: 0.1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1630520956
 GameObject:
   m_ObjectHideFlags: 0
@@ -2513,6 +2517,11 @@ Prefab:
       propertyPath: trackPivotPoint
       value: 
       objectReference: {fileID: 840226035}
+    - target: {fileID: 65833682482686598, guid: f52f23b8f4335e946b9cc69b850ea4f4,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f52f23b8f4335e946b9cc69b850ea4f4, type: 2}
   m_IsPrefabParent: 0

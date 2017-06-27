@@ -59,6 +59,11 @@ namespace ToyRoom
             }
             track = new LTSpline(pointsOne);
             LeanTween.moveSpline(this.gameObject, track, 10.0f).setOrientToPath(true).setLoopClamp();
+
+            if (!animatorParamDictionary[GameVals.AnimatorParameterKeys.carIsDriving])
+            {
+                LeanTween.pauseAll();
+            }
         }
 
         private void Update()
@@ -120,11 +125,6 @@ namespace ToyRoom
             {
                 trackPivotPoint.localPosition = trackPivotPos1;
                 targetTrackPivot = trackPivotPos1;
-            }
-
-            if (!animatorParamDictionary[GameVals.AnimatorParameterKeys.carIsDriving])
-            {
-                LeanTween.pauseAll();
             }
         }
 
