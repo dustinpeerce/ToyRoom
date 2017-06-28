@@ -7,6 +7,10 @@ public class AudioManager : MonoBehaviour {
     public static AudioManager Instance;
 
     public AudioSource sfxAudioSource;
+    public AudioSource bgmAudioSource01;
+    public AudioSource bgmAudioSource02;
+    public AudioSource bgmAudioSource03;
+    public AudioSource bgmAudioSource04;
 
     // Audio Clips
     public AudioClip dartFire;
@@ -37,5 +41,36 @@ public class AudioManager : MonoBehaviour {
     public void PlayAudio(AudioClip clip)
     {
         sfxAudioSource.PlayOneShot(clip, sfxAudioSource.volume);
+    }
+
+    public void PlayBackground(int audioSourceIndex)
+    {
+        StopBackground();
+
+        switch (audioSourceIndex) {
+            case 1:
+                bgmAudioSource01.Play();
+                break;
+            case 2:
+                bgmAudioSource02.Play();
+                break;
+            case 3:
+                bgmAudioSource03.Play();
+                break;
+            case 4:
+                bgmAudioSource04.Play();
+                break;
+            default:
+                bgmAudioSource01.Play();
+                break;
+        }
+    }
+
+    public void StopBackground()
+    {
+        bgmAudioSource01.Stop();
+        bgmAudioSource02.Stop();
+        bgmAudioSource03.Stop();
+        bgmAudioSource04.Stop();
     }
 }

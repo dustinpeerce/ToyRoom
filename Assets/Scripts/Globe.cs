@@ -38,16 +38,18 @@ namespace ToyRoom
             StartCoroutine(SpinCoroutine(10));
         }
 
-        public void ToggleDanceMode()
+        public void ToggleDanceMode(int landNumber)
         {
             isDanceMode = !isDanceMode;
 
             if (isDanceMode)
             {
-                meshRenderer.material = globeDanceMat[0];
+                AudioManager.Instance.PlayBackground(landNumber);
+                meshRenderer.material = globeDanceMat[landNumber - 1];
             }
             else
             {
+                AudioManager.Instance.StopBackground();
                 meshRenderer.material = defaultMat;
             }
 
