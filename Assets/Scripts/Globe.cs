@@ -69,6 +69,7 @@ namespace ToyRoom
         {
             if (collision.gameObject.CompareTag("Dart"))
             {
+                AudioManager.Instance.PlayAudio(AudioManager.Instance.dartHitGlobe);
                 SpinGlobe();
             }
         }

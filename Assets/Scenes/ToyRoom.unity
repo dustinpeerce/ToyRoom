@@ -3170,6 +3170,8 @@ GameObject:
   - component: {fileID: 1992378029}
   - component: {fileID: 1992378028}
   - component: {fileID: 1992378030}
+  - component: {fileID: 1992378032}
+  - component: {fileID: 1992378031}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3244,6 +3246,109 @@ MonoBehaviour:
   - {fileID: 1823513419}
   - {fileID: 821775234}
   - {fileID: 1253091517}
+--- !u!82 &1992378031
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1992378027}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.7
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &1992378032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1992378027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 642026ce5d336454b86b888913b39423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxAudioSource: {fileID: 1992378031}
+  dartFire: {fileID: 8300000, guid: abe65b1843e854f4e81ec3eaa0adcb93, type: 3}
+  dartHitCar: {fileID: 8300000, guid: 901e5e8340eeddd4395923d850382ee0, type: 3}
+  dartHitPerson: {fileID: 8300000, guid: e56987604f0307d4e8144317fa50337b, type: 3}
+  dartHitGlobe: {fileID: 8300000, guid: 5363c8a4ac096c0439db7d8fd2e46816, type: 3}
+  houseOpen: {fileID: 8300000, guid: 94d5f17859e098a4099c0197d78b78be, type: 3}
+  leverFail: {fileID: 8300000, guid: c8f0b5cba86548c4a837f78c24b0ffae, type: 3}
+  leverPullRight: {fileID: 8300000, guid: 53bf72df86f69dc49a133c1faef4fdcc, type: 3}
+  leverPullLeft: {fileID: 8300000, guid: c7fe1de6738150e40970504ffcc0a3dd, type: 3}
+  leverUnlock: {fileID: 8300000, guid: aa3ad99532099894597134dde4597c07, type: 3}
+  lightsOff: {fileID: 8300000, guid: bed0e462adf266d4a8dfdd8af8808a80, type: 3}
+  lightsOn: {fileID: 8300000, guid: 3968a91548d3d2e4a83f3e424b95a537, type: 3}
 --- !u!1 &2006833446
 GameObject:
   m_ObjectHideFlags: 0

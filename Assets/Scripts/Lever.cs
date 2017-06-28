@@ -40,9 +40,16 @@ namespace ToyRoom
 
             if (isUnlocked)
             {
+                if (isPulledLeft) AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullRight);
+                else AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullLeft);
+
                 isPulledLeft = !isPulledLeft;
                 carInstance.ToggleTrack();
                 trackTracer.ChangeCurrentTrackIndex();
+            }
+            else
+            {
+                AudioManager.Instance.PlayAudio(AudioManager.Instance.leverFail);
             }
         }
 
@@ -52,6 +59,7 @@ namespace ToyRoom
             {
                 if (!isUnlocked)
                 {
+                    AudioManager.Instance.PlayAudio(AudioManager.Instance.leverUnlock);
                     animator.SetTrigger("Unlock");
                     animator.SetBool("IsUnlocked", true);
                     isUnlocked = true;

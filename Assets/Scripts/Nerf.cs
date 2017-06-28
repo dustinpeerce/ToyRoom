@@ -36,6 +36,7 @@ namespace ToyRoom
 
         public void FireDart()
         {
+            AudioManager.Instance.PlayAudio(AudioManager.Instance.dartFire);
 
             GameObject obj = Instantiate(dartPrefab, dartPos.position, transform.rotation) as GameObject;
 

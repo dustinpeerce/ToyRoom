@@ -27,6 +27,7 @@ namespace ToyRoom
         {
             if (other.gameObject.name == "Car")
             {
+                AudioManager.Instance.PlayAudio(AudioManager.Instance.lightsOn);
                 houseInstance.IsOn = true;
                 transform.position = downPos;
                 mesh.material = downMat;
@@ -37,6 +38,7 @@ namespace ToyRoom
         {
             if (other.gameObject.name == "Car")
             {
+                AudioManager.Instance.PlayAudio(AudioManager.Instance.lightsOff);
                 houseInstance.IsOn = false;
                 transform.position = upPos;
                 mesh.material = upMat;

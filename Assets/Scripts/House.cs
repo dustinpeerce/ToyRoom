@@ -39,10 +39,12 @@ namespace ToyRoom
             {
                 if (isOpen)
                 {
+                    AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
                     animator.SetTrigger("Close");
                 }
                 else
                 {
+                    AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
                     animator.SetTrigger("Open");
                 }
 
@@ -72,6 +74,7 @@ namespace ToyRoom
 
                     if (isOpen)
                     {
+                        AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
                         animator.SetTrigger("Close");
                     }
                 }
