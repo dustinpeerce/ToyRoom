@@ -9,6 +9,7 @@ namespace ToyRoom
     {
 
         public Car carInstance;
+        public TrackTracer trackTracer;
 
         private Animator animator;
         private bool isUnlocked;
@@ -41,6 +42,7 @@ namespace ToyRoom
             {
                 isPulledLeft = !isPulledLeft;
                 carInstance.ToggleTrack();
+                trackTracer.ChangeCurrentTrackIndex();
             }
         }
 

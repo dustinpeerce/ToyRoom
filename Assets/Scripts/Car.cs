@@ -141,13 +141,6 @@ namespace ToyRoom
             animatorParamDictionary[GameVals.AnimatorParameterKeys.carIsDriving] = false;
         }
 
-
-        // Use this for visualizing what the track looks like in the editor
-        void OnDrawGizmos()
-        {
-            LTSpline.drawGizmo(trackPoints, Color.red);
-        }
-
     }
 
 }

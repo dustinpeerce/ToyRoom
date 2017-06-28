@@ -28,6 +28,7 @@ namespace ToyRoom
             // House related
             public static string canSeeHouse = "CanSeeHouse";
             public static string houseIsOpen = "HouseIsOpen";
+            public static string layDown = "LayDown";
         }
 
     }
