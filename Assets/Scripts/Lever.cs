@@ -73,6 +73,8 @@ namespace ToyRoom
                     animator.SetTrigger("PullRight");
                     AudioManager.Instance.PlayAudio(AudioManager.Instance.leverFail);
                 }
+
+                isBeingPulled = true;
             }
         }
 
@@ -90,9 +92,9 @@ namespace ToyRoom
             }
         }
 
-        public void TogglePullState()
+        public void PullStateComplete()
         {
-            isBeingPulled = !isBeingPulled;
+            isBeingPulled = false;
         }
 
         private void UpdateTrack()
