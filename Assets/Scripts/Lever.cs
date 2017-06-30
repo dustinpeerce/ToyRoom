@@ -7,19 +7,38 @@ namespace ToyRoom
 
     public class Lever : MonoBehaviour
     {
+        public enum TrackIndex { TrackOne, TrackTwo };
 
         public Car carInstance;
-        public Road road;
+        public GameObject trackOne;
+        public GameObject trackTwo;
+        public Material darkRoadMat;
+        public Material lightRoadMat;
 
         private Animator animator;
         private bool isUnlocked;
         private bool isPulledLeft;
+        private bool isBeingPulled;
+        private MeshRenderer trackOneRenderer;
+        private MeshRenderer trackTwoRenderer;
+
+        private TrackIndex currentTrackIndex;
 
         private void Awake()
         {
             isUnlocked = false;
             isPulledLeft = true;
+            isBeingPulled = false;
             animator = GetComponent<Animator>();
+
+            trackOneRenderer = trackOne.GetComponent<MeshRenderer>();
+            trackTwoRenderer = trackTwo.GetComponent<MeshRenderer>();
+        }
+
+        private void Start()
+        {
+            currentTrackIndex = TrackIndex.TrackOne;
+            UpdateTrack();
         }
 
         public void SetGazedAt(bool gazedAt)
@@ -29,27 +48,31 @@ namespace ToyRoom
 
         public void PullLever()
         {
-            if (isPulledLeft)
+            if (!isBeingPulled)
             {
-                animator.SetTrigger("PullRight");
-            }
-            else
-            {
-                animator.SetTrigger("PullLeft");
-            }
+                if (isUnlocked)
+                {
 
-            if (isUnlocked)
-            {
-                if (isPulledLeft) AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullRight);
-                else AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullLeft);
+                    if (isPulledLeft)
+                    {
+                        animator.SetTrigger("PullRight");
+                        AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullRight);
+                    }
+                    else
+                    {
+                        animator.SetTrigger("PullLeft");
+                        AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullLeft);
+                    }
 
-                isPulledLeft = !isPulledLeft;
-                carInstance.ToggleTrack();
-                road.ChangeCurrentTrackIndex();
-            }
-            else
-            {
-                AudioManager.Instance.PlayAudio(AudioManager.Instance.leverFail);
+                    isPulledLeft = !isPulledLeft;
+                    carInstance.ToggleTrack();
+                    ChangeCurrentTrackIndex();
+                }
+                else
+                {
+                    animator.SetTrigger("PullRight");
+                    AudioManager.Instance.PlayAudio(AudioManager.Instance.leverFail);
+                }
             }
         }
 
@@ -65,6 +88,35 @@ namespace ToyRoom
                     isUnlocked = true;
                 }
             }
+        }
+
+        public void TogglePullState()
+        {
+            isBeingPulled = !isBeingPulled;
+        }
+
+        private void UpdateTrack()
+        {
+            if (currentTrackIndex == TrackIndex.TrackOne)
+            {
+                trackOneRenderer.material = lightRoadMat;
+                trackTwoRenderer.material = darkRoadMat;
+            }
+            else
+            {
+                trackOneRenderer.material = darkRoadMat;
+                trackTwoRenderer.material = lightRoadMat;
+            }
+        }
+
+        private void ChangeCurrentTrackIndex()
+        {
+            if (currentTrackIndex == TrackIndex.TrackOne)
+                currentTrackIndex = TrackIndex.TrackTwo;
+            else
+                currentTrackIndex = TrackIndex.TrackOne;
+
+            UpdateTrack();
         }
     }
 

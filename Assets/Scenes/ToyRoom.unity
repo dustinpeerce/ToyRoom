@@ -689,7 +689,13 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114694687221723620, guid: a83fef6897533254eaf1f99cf3f92846,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114694687221723620, guid: a83fef6897533254eaf1f99cf3f92846, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: a83fef6897533254eaf1f99cf3f92846, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &817642001
@@ -1474,6 +1480,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 65812310218537352, guid: 5e34986737d5ced41bd95ab86054b4b3,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 65812310218537352, guid: 5e34986737d5ced41bd95ab86054b4b3,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 65812310218537352, guid: 5e34986737d5ced41bd95ab86054b4b3,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 0.08
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e34986737d5ced41bd95ab86054b4b3, type: 2}
   m_IsPrefabParent: 0
@@ -2097,12 +2118,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1630520956}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1656648955 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114694687221723620, guid: a83fef6897533254eaf1f99cf3f92846,
+--- !u!1 &1659604772 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1481512954490328, guid: a83fef6897533254eaf1f99cf3f92846,
     type: 2}
   m_PrefabInternal: {fileID: 777080265}
-  m_Script: {fileID: 11500000, guid: d1f56d560d61c06498d251a8efbed0e3, type: 3}
 --- !u!1001 &1672831709
 Prefab:
   m_ObjectHideFlags: 0
@@ -2145,6 +2165,10 @@ Prefab:
     - target: {fileID: 11414954, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
       propertyPath: vrModeEnabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414954, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
+      propertyPath: distortionCorrection
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
@@ -2368,6 +2392,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1817433424 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1608222907856608, guid: a83fef6897533254eaf1f99cf3f92846,
+    type: 2}
+  m_PrefabInternal: {fileID: 777080265}
 --- !u!1 &1844413139
 GameObject:
   m_ObjectHideFlags: 0
@@ -3665,7 +3694,27 @@ Prefab:
         type: 2}
       propertyPath: road
       value: 
-      objectReference: {fileID: 1656648955}
+      objectReference: {fileID: 0}
+    - target: {fileID: 114096387022098838, guid: 81b574432153a1447adbc818a8e092ec,
+        type: 2}
+      propertyPath: trackOne
+      value: 
+      objectReference: {fileID: 1659604772}
+    - target: {fileID: 114096387022098838, guid: 81b574432153a1447adbc818a8e092ec,
+        type: 2}
+      propertyPath: trackTwo
+      value: 
+      objectReference: {fileID: 1817433424}
+    - target: {fileID: 114096387022098838, guid: 81b574432153a1447adbc818a8e092ec,
+        type: 2}
+      propertyPath: darkRoadMat
+      value: 
+      objectReference: {fileID: 2100000, guid: e9426e14aecbefe468c69cd7aff63f76, type: 2}
+    - target: {fileID: 114096387022098838, guid: 81b574432153a1447adbc818a8e092ec,
+        type: 2}
+      propertyPath: lightRoadMat
+      value: 
+      objectReference: {fileID: 2100000, guid: b441bb23003ba1e42a0cdc676e8bd156, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 81b574432153a1447adbc818a8e092ec, type: 2}
   m_IsPrefabParent: 0
