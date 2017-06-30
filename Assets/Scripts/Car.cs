@@ -13,19 +13,20 @@ namespace ToyRoom
         public float speed = 1;
         public Material inactiveMaterial;
         public Material gazedAtMaterial;
-        public Transform[] trackPoints;
-        public Transform trackPivotPoint;
+        public Transform[] trackPoints1;
+        public Transform[] trackPoints2;
 
         private Vector3 carStartPos;
         private Vector3 trackPivotPos1;
         private Vector3 trackPivotPos2;
 
-        private Vector3 currentTrackPivot;
-        private Vector3 targetTrackPivot;
+        private Transform[] currentTrackPoints;
+        private Transform[] targetTrackPoints;
 
         private LTSpline track;
         private float trackPosition = 0; // ratio 0,1 of the avatars position on the track
 
+        private bool trackOneIsActive;
 
         private void Awake()
         {
@@ -36,28 +37,27 @@ namespace ToyRoom
             animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.carIsDriving, false);
 
             carStartPos = transform.position;
-            trackPivotPos1 = trackPivotPoint.localPosition;
-            trackPivotPos2 = new Vector3(-1.695f, 0, 2.694f);
         }
 
 
         private void Start()
         {
             // Make the track from the provided transforms
+            currentTrackPoints = trackPoints1;
+            targetTrackPoints = trackPoints1;
+            trackOneIsActive = true;
             SetSpline();
-            currentTrackPivot = trackPivotPos1;
-            targetTrackPivot = trackPivotPos1;
             LeanTween.pauseAll();
         }
 
         private void SetSpline()
         {
-            Vector3[] pointsOne = new Vector3[trackPoints.Length];
-            for (int i = 0; i < pointsOne.Length; i++)
+            Vector3[] points = new Vector3[targetTrackPoints.Length];
+            for (int i = 0; i < points.Length; i++)
             {
-                pointsOne[i] = trackPoints[i].position;
+                points[i] = targetTrackPoints[i].position;
             }
-            track = new LTSpline(pointsOne);
+            track = new LTSpline(points);
             LeanTween.moveSpline(this.gameObject, track, 10.0f).setOrientToPath(true).setLoopClamp();
 
             if (!animatorParamDictionary[GameVals.AnimatorParameterKeys.carIsDriving])
@@ -80,10 +80,11 @@ namespace ToyRoom
 
             if ( (transform.position - carStartPos).magnitude <= 0.1f )
             {
-                if (currentTrackPivot != targetTrackPivot)
+                if (currentTrackPoints != targetTrackPoints)
                 {
                     SetSpline();
-                    currentTrackPivot = targetTrackPivot;
+                    trackOneIsActive = !trackOneIsActive;
+                    currentTrackPoints = targetTrackPoints;
                 }
             }
         }
@@ -116,15 +117,13 @@ namespace ToyRoom
 
         public void ToggleTrack()
         {
-            if (trackPivotPoint.localPosition == trackPivotPos1)
+            if (trackOneIsActive)
             {
-                trackPivotPoint.localPosition = trackPivotPos2;
-                targetTrackPivot = trackPivotPos2;
+                targetTrackPoints = trackPoints2;
             }
             else
             {
-                trackPivotPoint.localPosition = trackPivotPos1;
-                targetTrackPivot = trackPivotPos1;
+                targetTrackPoints = trackPoints1;
             }
         }
 
@@ -139,6 +138,13 @@ namespace ToyRoom
         {
             LeanTween.pauseAll();
             animatorParamDictionary[GameVals.AnimatorParameterKeys.carIsDriving] = false;
+        }
+
+        // Use this for visualizing what the track looks like in the editor
+        void OnDrawGizmos()
+        {
+            LTSpline.drawGizmo(trackPoints1, Color.red);
+            LTSpline.drawGizmo(trackPoints2, Color.blue);
         }
 
     }
