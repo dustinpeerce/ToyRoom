@@ -83,7 +83,6 @@ namespace ToyRoom
                 if (currentTrackPoints != targetTrackPoints)
                 {
                     SetSpline();
-                    trackOneIsActive = !trackOneIsActive;
                     currentTrackPoints = targetTrackPoints;
                 }
             }
@@ -125,6 +124,8 @@ namespace ToyRoom
             {
                 targetTrackPoints = trackPoints1;
             }
+
+            trackOneIsActive = !trackOneIsActive;
         }
 
         private void StartDriving()

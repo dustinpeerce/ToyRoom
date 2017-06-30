@@ -23,6 +23,7 @@ namespace ToyRoom
 
             // Globe releated
             public static string canSeeGlobe = "CanSeeGlobe";
+            public static string globeIsSpinning = "GlobeIsSpinning";
             public static string globeIsDancing = "GlobeIsDancing";
 
             // House related

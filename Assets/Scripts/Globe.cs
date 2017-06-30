@@ -14,6 +14,7 @@ namespace ToyRoom
         private MeshRenderer meshRenderer;
         private Material defaultMat;
         private bool isDanceMode = false;
+        private int spinCount;
 
         private void Awake()
         {
@@ -23,6 +24,7 @@ namespace ToyRoom
             canSeeToyKey = GameVals.AnimatorParameterKeys.canSeeGlobe;
             animatorParamDictionary = new Dictionary<string, bool>();
             animatorParamDictionary.Add(canSeeToyKey, false);
+            animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.globeIsSpinning, false);
             animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.globeIsDancing, false);
         }
 
@@ -58,6 +60,8 @@ namespace ToyRoom
 
         private IEnumerator SpinCoroutine(int rotationCount)
         {
+            this.SpinCount++;
+
             for (int i = 0; i < rotationCount; i++)
             {
 
@@ -65,6 +69,8 @@ namespace ToyRoom
 
                 yield return new WaitForSeconds(0.025f);
             }
+
+            this.SpinCount--;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -73,6 +79,32 @@ namespace ToyRoom
             {
                 AudioManager.Instance.PlayAudio(AudioManager.Instance.dartHitGlobe);
                 SpinGlobe();
+            }
+        }
+
+        public int SpinCount
+        {
+            get { return spinCount; }
+            set
+            {
+                if (spinCount <= 0) // not spinning
+                {
+                    spinCount = value;
+
+                    if (spinCount > 0)
+                    {
+                        animatorParamDictionary[GameVals.AnimatorParameterKeys.globeIsSpinning] = true;
+                    }
+                }
+                else // currently spinning
+                {
+                    spinCount = value;
+
+                    if (spinCount <= 0)
+                    {
+                        animatorParamDictionary[GameVals.AnimatorParameterKeys.globeIsSpinning] = false;
+                    }
+                }
             }
         }
 
