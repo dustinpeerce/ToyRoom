@@ -76,6 +76,9 @@ namespace ToyRoom
                     {
                         AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
                         animator.SetTrigger("Close");
+
+                        isOpen = !isOpen;
+                        animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = isOpen;
                     }
                 }
             }
