@@ -42,9 +42,8 @@ GameObject:
   - component: {fileID: 33966592700815444}
   - component: {fileID: 23857653656669950}
   - component: {fileID: 114177624436048938}
-  - component: {fileID: 114238271346921866}
-  - component: {fileID: 135767232113555902}
-  m_Layer: 8
+  - component: {fileID: 135047547880765390}
+  m_Layer: 0
   m_Name: Planet
   m_TagString: Toy
   m_Icon: {fileID: 0}
@@ -612,6 +611,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 114432769440232060}
+          m_MethodName: ToggleDanceMode
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
@@ -626,8 +636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1853f57641da34dbae2b66d0de8852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gazeMat: {fileID: 2100000, guid: 8d10dfb789d69e14baf9583e5d608634, type: 2}
-  activeMat: {fileID: 2100000, guid: 8d10dfb789d69e14baf9583e5d608634, type: 2}
+  gazeMat: {fileID: 2100000, guid: d0dff44001ff4884dae97c6880f760c4, type: 2}
+  activeMat: {fileID: 2100000, guid: dcbc4fd903898fe408d46ff2fb3a2eb3, type: 2}
 --- !u!114 &114177624436048938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -639,58 +649,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b54f92bafc9e546b4dcbb19f11c9f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeMat: {fileID: 2100000, guid: dcbc4fd903898fe408d46ff2fb3a2eb3, type: 2}
   globeDanceMat:
   - {fileID: 2100000, guid: 75ee9a7101030d2478d415f241d7d6de, type: 2}
   - {fileID: 2100000, guid: 65ddad3226499484c9528dc9d8831ea2, type: 2}
   - {fileID: 2100000, guid: 1467ef0e136574e41904c6f7a08de065, type: 2}
   - {fileID: 2100000, guid: e709024500603e141ba636934819d6e7, type: 2}
---- !u!114 &114238271346921866
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1161659006999106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114177624436048938}
-          m_MethodName: SetGazedAt
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114177624436048938}
-          m_MethodName: SetGazedAt
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114422214995543478
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -702,8 +666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1853f57641da34dbae2b66d0de8852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gazeMat: {fileID: 2100000, guid: 8d10dfb789d69e14baf9583e5d608634, type: 2}
-  activeMat: {fileID: 2100000, guid: 8d10dfb789d69e14baf9583e5d608634, type: 2}
+  gazeMat: {fileID: 2100000, guid: d0dff44001ff4884dae97c6880f760c4, type: 2}
+  activeMat: {fileID: 2100000, guid: dcbc4fd903898fe408d46ff2fb3a2eb3, type: 2}
 --- !u!114 &114432769440232060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -715,8 +679,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1853f57641da34dbae2b66d0de8852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gazeMat: {fileID: 2100000, guid: 8d10dfb789d69e14baf9583e5d608634, type: 2}
-  activeMat: {fileID: 2100000, guid: 8d10dfb789d69e14baf9583e5d608634, type: 2}
+  gazeMat: {fileID: 2100000, guid: d0dff44001ff4884dae97c6880f760c4, type: 2}
+  activeMat: {fileID: 2100000, guid: dcbc4fd903898fe408d46ff2fb3a2eb3, type: 2}
 --- !u!114 &114497286957775668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -778,6 +742,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 114730652127457118}
+          m_MethodName: ToggleDanceMode
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
@@ -792,8 +767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1853f57641da34dbae2b66d0de8852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gazeMat: {fileID: 2100000, guid: 8d10dfb789d69e14baf9583e5d608634, type: 2}
-  activeMat: {fileID: 2100000, guid: 8d10dfb789d69e14baf9583e5d608634, type: 2}
+  gazeMat: {fileID: 2100000, guid: d0dff44001ff4884dae97c6880f760c4, type: 2}
+  activeMat: {fileID: 2100000, guid: dcbc4fd903898fe408d46ff2fb3a2eb3, type: 2}
 --- !u!114 &114848475516980176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -851,6 +826,17 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 4
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 114422214995543478}
+          m_MethodName: ToggleDanceMode
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -919,10 +905,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 114079232208043030}
+          m_MethodName: ToggleDanceMode
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
---- !u!135 &135767232113555902
+--- !u!135 &135047547880765390
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -932,5 +929,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.009999992
-  m_Center: {x: 0.000016512351, y: -0.00016443247, z: 0.000093470815}
+  m_Radius: 0.010000002
+  m_Center: {x: -0.0000000037252903, y: 0.000000009778887, z: 0.000000014901161}

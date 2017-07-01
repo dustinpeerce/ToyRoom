@@ -9,12 +9,15 @@ namespace ToyRoom
     public class Globe : Toy
     {
 
+		public Material activeMat;
         public Material[] globeDanceMat;
 
         private MeshRenderer meshRenderer;
         private Material defaultMat;
         private bool isDanceMode = false;
         private int spinCount;
+
+		private List<Land> lands;
 
         private void Awake()
         {
@@ -26,15 +29,13 @@ namespace ToyRoom
             animatorParamDictionary.Add(canSeeToyKey, false);
             animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.globeIsSpinning, false);
             animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.globeIsDancing, false);
+
+			lands = new List<Land> ();
+			foreach (Transform child in transform) {
+				lands.Add (child.GetComponent<Land> ());
+			}
         }
-
-
-        public void SetGazedAt(bool gazedAt)
-        {
-            
-        }
-
-
+			
         public void SpinGlobe()
         {
             StartCoroutine(SpinCoroutine(10));
@@ -47,12 +48,19 @@ namespace ToyRoom
             if (isDanceMode)
             {
                 AudioManager.Instance.PlayBackground(landNumber);
-                meshRenderer.material = globeDanceMat[landNumber - 1];
+                //meshRenderer.material = globeDanceMat[landNumber - 1];
+				meshRenderer.material = activeMat;
+
+				lands [landNumber - 1].SetActive (true);
             }
             else
             {
                 AudioManager.Instance.StopBackground();
                 meshRenderer.material = defaultMat;
+
+				foreach (Land land in lands) {
+					land.SetActive (false);
+				}
             }
 
             animatorParamDictionary[GameVals.AnimatorParameterKeys.globeIsDancing] = isDanceMode;
@@ -107,6 +115,10 @@ namespace ToyRoom
                 }
             }
         }
+
+		public bool IsDanceMode {
+			get { return isDanceMode; }
+		}
 
     }
 
