@@ -71,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1406707924180040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.0900064, z: 0}
+  m_LocalPosition: {x: 0, y: 5.0900064, z: 0.295}
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 4842418119526864}
@@ -193,7 +193,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.4, y: 5.04, z: 5.1}
+  m_Size: {x: 5, y: 4, z: 4.75}
   m_Center: {x: 0, y: 2.4, z: 0}
 --- !u!95 &95901195339659062
 Animator:
@@ -223,6 +223,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd02adab3238343459191e9bdd3c24a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carInstance: {fileID: 0}
+  trackOne: {fileID: 0}
+  trackTwo: {fileID: 0}
+  darkRoadMat: {fileID: 2100000, guid: e9426e14aecbefe468c69cd7aff63f76, type: 2}
+  lightRoadMat: {fileID: 2100000, guid: b441bb23003ba1e42a0cdc676e8bd156, type: 2}
+  darkLeverMat: {fileID: 2100000, guid: 5010df1abd1da9f4f9e132f76d46bb0b, type: 2}
+  lightLeverMat: {fileID: 2100000, guid: 3b578dd156d87714c8da44afec62e93e, type: 2}
+  leverObjects:
+  - {fileID: 23381267388209350}
+  - {fileID: 23041711148488364}
 --- !u!114 &114341894279971756
 MonoBehaviour:
   m_ObjectHideFlags: 1

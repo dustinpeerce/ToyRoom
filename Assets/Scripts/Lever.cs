@@ -14,6 +14,9 @@ namespace ToyRoom
         public GameObject trackTwo;
         public Material darkRoadMat;
         public Material lightRoadMat;
+        public Material darkLeverMat;
+        public Material lightLeverMat;
+        public List<MeshRenderer> leverObjects;
 
         private Animator animator;
         private bool isUnlocked;
@@ -88,6 +91,11 @@ namespace ToyRoom
                     animator.SetTrigger("Unlock");
                     animator.SetBool("IsUnlocked", true);
                     isUnlocked = true;
+
+                    foreach(MeshRenderer obj in leverObjects)
+                    {
+                        obj.material = lightLeverMat;
+                    }
                 }
             }
         }

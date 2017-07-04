@@ -21,6 +21,7 @@ namespace ToyRoom
         public AudioClip dartHitCar;
         public AudioClip dartHitPerson;
         public AudioClip dartHitGlobe;
+        public AudioClip houseShake;
         public AudioClip houseOpen;
         public AudioClip leverFail;
         public AudioClip leverPullRight;

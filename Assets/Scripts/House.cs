@@ -8,9 +8,12 @@ namespace ToyRoom
     public class House : Toy
     {
 
-        public Material lightsOnMat;
-        public Material lightsOffMat;
+        public Material lightsOnHouseMat;
+        public Material lightsOffHouseMat;
+        public Material lightsOnWindowMat;
+        public Material lightsOffWindowMat;
         public List<MeshRenderer> windowObjects;
+        public List<MeshRenderer> houseObjects;
         private Animator animator;
         private bool isOpen;
         private bool isOn;
@@ -18,13 +21,14 @@ namespace ToyRoom
         private void Awake()
         {
             animator = GetComponent<Animator>();
-            isOpen = false;
-            isOn = false;
 
             canSeeToyKey = GameVals.AnimatorParameterKeys.canSeeHouse;
             animatorParamDictionary = new Dictionary<string, bool>();
             animatorParamDictionary.Add(canSeeToyKey, false);
             animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.houseIsOpen, false);
+
+            IsOpen = false;
+            IsOn = false;
         }
 
 
@@ -35,22 +39,43 @@ namespace ToyRoom
 
         public void ToggleHouseOpen()
         {
-            if (isOn)
+            if (IsOn)
             {
-                if (isOpen)
+                if (IsOpen)
                 {
-                    AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
-                    animator.SetTrigger("Close");
+                    CloseHouse();
                 }
                 else
                 {
-                    AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
-                    animator.SetTrigger("Open");
+                    OpenHouse();
                 }
-
-                isOpen = !isOpen;
-                animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = isOpen;
             }
+            else
+            {
+                ShakeHouse();
+            }
+        }
+
+        private void ShakeHouse()
+        {
+            AudioManager.Instance.PlayAudio(AudioManager.Instance.houseShake);
+            animator.SetTrigger("Shake");
+        }
+
+        private void OpenHouse()
+        {
+            AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
+            animator.SetTrigger("Open");
+
+            IsOpen = true;
+        }
+
+        private void CloseHouse()
+        {
+            AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
+            animator.SetTrigger("Close");
+
+            IsOpen = false; 
         }
 
         public bool IsOn
@@ -63,24 +88,40 @@ namespace ToyRoom
                 {
                     foreach(MeshRenderer window in windowObjects)
                     {
-                        window.material = lightsOnMat;
+                        window.material = lightsOnWindowMat;
+                    }
+
+                    foreach (MeshRenderer house in houseObjects)
+                    {
+                        house.material = lightsOnHouseMat;
                     }
                 }
                 else {
                     foreach (MeshRenderer window in windowObjects)
                     {
-                        window.material = lightsOffMat;
+                        window.material = lightsOffWindowMat;
                     }
 
-                    if (isOpen)
+                    foreach (MeshRenderer house in houseObjects)
                     {
-                        AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
-                        animator.SetTrigger("Close");
+                        house.material = lightsOffHouseMat;
+                    }
 
-                        isOpen = !isOpen;
-                        animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = isOpen;
+                    if (IsOpen)
+                    {
+                        CloseHouse();
                     }
                 }
+            }
+        }
+
+        private bool IsOpen
+        {
+            get { return isOpen; }
+            set
+            {
+                isOpen = value;
+                animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = isOpen;
             }
         }
 

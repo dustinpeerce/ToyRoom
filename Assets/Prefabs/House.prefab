@@ -15112,7 +15112,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1112343737124212}
-  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: -0.3420201, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 1.039, y: 5.0900064, z: -3.063}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
@@ -15120,7 +15120,7 @@ Transform:
   - {fileID: 4026458317856896}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -40, z: 0}
 --- !u!4 &4591797550229922
 Transform:
   m_ObjectHideFlags: 1
@@ -23032,14 +23032,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061b06c2d96ed964cb20d7ccff8ab68d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightsOnMat: {fileID: 2100000, guid: 6bc5601707f953f4b944e4303a478da7, type: 2}
-  lightsOffMat: {fileID: 2100000, guid: fd7d2ab30846ee24a81723bd1be2cb56, type: 2}
+  lightsOnHouseMat: {fileID: 2100000, guid: a827ce7d7b93dae419d88a19a0d4cca8, type: 2}
+  lightsOffHouseMat: {fileID: 2100000, guid: 6e7afba9a1be66b49a3200bb78b31ca4, type: 2}
+  lightsOnWindowMat: {fileID: 2100000, guid: 6bc5601707f953f4b944e4303a478da7, type: 2}
+  lightsOffWindowMat: {fileID: 2100000, guid: fd7d2ab30846ee24a81723bd1be2cb56, type: 2}
   windowObjects:
   - {fileID: 23562602714768902}
   - {fileID: 23137098654144090}
   - {fileID: 23943368244986730}
   - {fileID: 23599455754581892}
   - {fileID: 23849001684039560}
+  houseObjects:
+  - {fileID: 23555383858350442}
+  - {fileID: 23343496416124460}
 --- !u!114 &114724943902659284
 MonoBehaviour:
   m_ObjectHideFlags: 1
