@@ -15,7 +15,9 @@ namespace ToyRoom
         public List<MeshRenderer> windowObjects;
         public List<MeshRenderer> houseObjects;
         private Animator animator;
-        private bool isOpen;
+
+        public enum HouseState { Opened, Closed, Changing };
+        private HouseState currentState;
         private bool isOn;
 
         private void Awake()
@@ -27,7 +29,7 @@ namespace ToyRoom
             animatorParamDictionary.Add(canSeeToyKey, false);
             animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.houseIsOpen, false);
 
-            IsOpen = false;
+            CurrentState = HouseState.Closed;
             IsOn = false;
         }
 
@@ -39,20 +41,23 @@ namespace ToyRoom
 
         public void ToggleHouseOpen()
         {
-            if (IsOn)
+            if (CurrentState != HouseState.Changing)
             {
-                if (IsOpen)
+                if (IsOn)
                 {
-                    CloseHouse();
+                    if (CurrentState == HouseState.Opened)
+                    {
+                        CloseHouse();
+                    }
+                    else
+                    {
+                        OpenHouse();
+                    }
                 }
                 else
                 {
-                    OpenHouse();
+                    ShakeHouse();
                 }
-            }
-            else
-            {
-                ShakeHouse();
             }
         }
 
@@ -60,6 +65,8 @@ namespace ToyRoom
         {
             AudioManager.Instance.PlayAudio(AudioManager.Instance.houseShake);
             animator.SetTrigger("Shake");
+
+            CurrentState = HouseState.Changing;
         }
 
         private void OpenHouse()
@@ -67,7 +74,7 @@ namespace ToyRoom
             AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
             animator.SetTrigger("Open");
 
-            IsOpen = true;
+            CurrentState = HouseState.Changing;
         }
 
         private void CloseHouse()
@@ -75,7 +82,19 @@ namespace ToyRoom
             AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
             animator.SetTrigger("Close");
 
-            IsOpen = false; 
+            CurrentState = HouseState.Changing;
+        }
+
+        public void HouseChangeComplete(int isOpenInteger)
+        {
+            if (isOpenInteger == 0)
+            {
+                CurrentState = HouseState.Closed;
+            }
+            else
+            {
+                CurrentState = HouseState.Opened;
+            }
         }
 
         public bool IsOn
@@ -107,7 +126,7 @@ namespace ToyRoom
                         house.material = lightsOffHouseMat;
                     }
 
-                    if (IsOpen)
+                    if (CurrentState == HouseState.Opened)
                     {
                         CloseHouse();
                     }
@@ -115,13 +134,21 @@ namespace ToyRoom
             }
         }
 
-        private bool IsOpen
+        private HouseState CurrentState
         {
-            get { return isOpen; }
+            get { return currentState; }
             set
             {
-                isOpen = value;
-                animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = isOpen;
+                currentState = value;
+
+                if (currentState == HouseState.Opened)
+                {
+                    animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = true;
+                }
+                else
+                {
+                    animatorParamDictionary[GameVals.AnimatorParameterKeys.houseIsOpen] = false;
+                }
             }
         }
 

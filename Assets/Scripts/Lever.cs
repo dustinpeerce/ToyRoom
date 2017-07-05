@@ -20,18 +20,18 @@ namespace ToyRoom
 
         private Animator animator;
         private bool isUnlocked;
-        private bool isPulledLeft;
-        private bool isBeingPulled;
         private MeshRenderer trackOneRenderer;
         private MeshRenderer trackTwoRenderer;
+
+        public enum LeverState { Left, Right, Changing };
+        private LeverState currentState;
 
         private TrackIndex currentTrackIndex;
 
         private void Awake()
         {
             isUnlocked = false;
-            isPulledLeft = true;
-            isBeingPulled = false;
+            currentState = LeverState.Left;
             animator = GetComponent<Animator>();
 
             trackOneRenderer = trackOne.GetComponent<MeshRenderer>();
@@ -51,34 +51,68 @@ namespace ToyRoom
 
         public void PullLever()
         {
-            if (!isBeingPulled)
+            if (currentState != LeverState.Changing)
             {
                 if (isUnlocked)
                 {
-
-                    if (isPulledLeft)
+                    if (currentState == LeverState.Left)
                     {
-                        animator.SetTrigger("PullRight");
-                        AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullRight);
+                        PullRight();
                     }
                     else
                     {
-                        animator.SetTrigger("PullLeft");
-                        AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullLeft);
-                    }
-
-                    isPulledLeft = !isPulledLeft;
-                    carInstance.ToggleTrack();
-                    ChangeCurrentTrackIndex();
+                        PullLeft();
+                    }   
                 }
                 else
                 {
-                    animator.SetTrigger("PullRight");
-                    AudioManager.Instance.PlayAudio(AudioManager.Instance.leverFail);
+                    PullFail();
                 }
-
-                isBeingPulled = true;
             }
+        }
+
+        private void PullLeft()
+        {
+            animator.SetTrigger("PullLeft");
+            AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullLeft);
+
+            currentState = LeverState.Changing;
+        }
+
+        private void PullRight()
+        {
+            animator.SetTrigger("PullRight");
+            AudioManager.Instance.PlayAudio(AudioManager.Instance.leverPullRight);
+
+            currentState = LeverState.Changing;
+        }
+
+        private void PullFail()
+        {
+            animator.SetTrigger("PullRight");
+            AudioManager.Instance.PlayAudio(AudioManager.Instance.leverFail);
+
+            currentState = LeverState.Changing;
+        }
+
+        public void PullStateComplete(int isLeftInteger)
+        {
+            if (isLeftInteger == 0)
+            {
+                currentState = LeverState.Right;
+            }
+            else
+            {
+                currentState = LeverState.Left;
+            }
+
+            carInstance.ToggleTrack();
+            ChangeCurrentTrackIndex();
+        }
+
+        public void PullFailComplete()
+        {
+            currentState = LeverState.Left;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -98,11 +132,6 @@ namespace ToyRoom
                     }
                 }
             }
-        }
-
-        public void PullStateComplete()
-        {
-            isBeingPulled = false;
         }
 
         private void UpdateTrack()
