@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace ToyRoom
 {
 
     public class House : Toy
     {
 
+		// Public Attributes
+		public enum HouseState { Opened, Closed, Changing }
         public Material lightsOnHouseMat;
         public Material lightsOffHouseMat;
         public Material lightsOnWindowMat;
         public Material lightsOffWindowMat;
         public List<MeshRenderer> windowObjects;
         public List<MeshRenderer> houseObjects;
-        private Animator animator;
 
-        public enum HouseState { Opened, Closed, Changing };
+		// Private Attributes
+        private Animator animator;
         private HouseState currentState;
         private bool isOn;
 
@@ -152,5 +155,6 @@ namespace ToyRoom
             }
         }
 
-    }
-}
+    } // end of class
+
+} // end of namespace

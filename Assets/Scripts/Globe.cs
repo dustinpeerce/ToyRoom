@@ -8,52 +8,65 @@ namespace ToyRoom
 
     public class Globe : Toy
     {
+		// Public Attributes
+		public Material activeMat;		// Material for dance mode
 
-		public Material activeMat;
-        public Material[] globeDanceMat;
+		// Private Attributes
+        private MeshRenderer meshRenderer;		// Mesh Renderer component for game object
+        private Material defaultMat;			// Initial material on the Mesh Renderer
+		private List<Land> lands;				// Land component of each child game object
+        private bool isDanceMode;				// Tracks whether dance mode is active or not
+        private int spinCount;					// How many times the globe was told to spin
 
-        private MeshRenderer meshRenderer;
-        private Material defaultMat;
-        private bool isDanceMode = false;
-        private int spinCount;
 
-		private List<Land> lands;
-
+		/// <summary>
+		/// Awake this instance.
+		/// </summary>
         private void Awake()
         {
+			// Initialize Private Attributes
             meshRenderer = GetComponent<MeshRenderer>();
             defaultMat = meshRenderer.material;
+			isDanceMode = false;
+			lands = new List<Land> ();
+			foreach (Transform child in transform) {
+				lands.Add (child.GetComponent<Land> ());
+			}
 
+			// Initialize Animator Parameter Dictionary
             canSeeToyKey = GameVals.AnimatorParameterKeys.canSeeGlobe;
             animatorParamDictionary = new Dictionary<string, bool>();
             animatorParamDictionary.Add(canSeeToyKey, false);
             animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.globeIsSpinning, false);
             animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.globeIsDancing, false);
-
-			lands = new List<Land> ();
-			foreach (Transform child in transform) {
-				lands.Add (child.GetComponent<Land> ());
-			}
         }
 			
+
+		/// <summary>
+		/// Spins the globe.
+		/// </summary>
         public void SpinGlobe()
         {
             StartCoroutine(SpinCoroutine(10));
         }
 
+
+		/// <summary>
+		/// Toggles the dance mode.
+		/// </summary>
+		/// <param name="landNumber">The Land number that was clicked.</param>
         public void ToggleDanceMode(int landNumber)
         {
             isDanceMode = !isDanceMode;
 
-            if (isDanceMode)
+			if (isDanceMode) // dancing just started...
             {
                 AudioManager.Instance.PlayBackground(landNumber);
-                //meshRenderer.material = globeDanceMat[landNumber - 1];
 				meshRenderer.material = activeMat;
 
 				lands [landNumber - 1].SetActive (true);
             }
-            else
+            else // dancing just stopped...
             {
                 AudioManager.Instance.StopBackground();
                 meshRenderer.material = defaultMat;
@@ -62,13 +75,19 @@ namespace ToyRoom
 					land.SetActive (false);
 				}
             }
-
+				
             animatorParamDictionary[GameVals.AnimatorParameterKeys.globeIsDancing] = isDanceMode;
         }
 
+
+		/// <summary>
+		/// Coroutine for spinning the globe.
+		/// </summary>
+		/// <returns>The coroutine.</returns>
+		/// <param name="rotationCount">Number of times to rotate.</param>
         private IEnumerator SpinCoroutine(int rotationCount)
         {
-            this.SpinCount++;
+            SpinCount++;
 
             for (int i = 0; i < rotationCount; i++)
             {
@@ -78,9 +97,14 @@ namespace ToyRoom
                 yield return new WaitForSeconds(0.025f);
             }
 
-            this.SpinCount--;
+            SpinCount--;
         }
 
+
+		/// <summary>
+		/// Raises the collision enter event.
+		/// </summary>
+		/// <param name="collision">Collision object.</param>
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Dart"))
@@ -90,6 +114,11 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Gets or sets the spin count.
+		/// </summary>
+		/// <value>The spin count.</value>
         public int SpinCount
         {
             get { return spinCount; }
@@ -99,7 +128,7 @@ namespace ToyRoom
                 {
                     spinCount = value;
 
-                    if (spinCount > 0)
+                    if (spinCount > 0) // we just started spinning...
                     {
                         animatorParamDictionary[GameVals.AnimatorParameterKeys.globeIsSpinning] = true;
                     }
@@ -108,7 +137,7 @@ namespace ToyRoom
                 {
                     spinCount = value;
 
-                    if (spinCount <= 0)
+                    if (spinCount <= 0) // we just stopped spinning...
                     {
                         animatorParamDictionary[GameVals.AnimatorParameterKeys.globeIsSpinning] = false;
                     }
@@ -116,10 +145,6 @@ namespace ToyRoom
             }
         }
 
-		public bool IsDanceMode {
-			get { return isDanceMode; }
-		}
+    } // end of class
 
-    }
-
-}
+} // end of namespace

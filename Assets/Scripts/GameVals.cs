@@ -32,6 +32,6 @@ namespace ToyRoom
             public static string layDown = "LayDown";
         }
 
-    }
+    } // end of class
 
-}
+} // end of namespace

@@ -9,29 +9,35 @@ namespace ToyRoom
     public class GameManager : MonoBehaviour
     {
 
-        public float fovDistance = 2f;
-        public float fovAngle = 60f;
-
-        private GameObject[] personPrefabs;
-        private GameObject[] toyPrefabs;
-
-        private List<Person> personScripts;
-        private List<Toy> toyScripts;
-
-        private bool gameIsRunning = false;
-
-        private Vector3 direction;
-        private bool canSee;
-        private Dictionary<string, bool> animParams;
+		// Private Attributes
+		private float fovDistance;						// Field of View Distance for People
+		private float fovAngle;							// Field of View Angle for People
+        private GameObject[] personPrefabs;				// Stores all Person prefabs in the scene
+        private GameObject[] toyPrefabs;				// Stores all Toy prefabs in the scene
+        private List<Person> personScripts;				// List of Person components on each Person prefab
+        private List<Toy> toyScripts;					// List of Toy components on each Toy prefab
+        private Vector3 direction;						// The direction vector between a Person and Toy
+        private bool canSee;							// Tracks whether a Person can see a Toy
+        private Dictionary<string, bool> animParams;	// Stores animator params for the Toy instances
 
 
-        // Grab all necessary objects
+       	/// <summary>
+       	/// Awake this instance.
+       	/// </summary>
         private void Awake()
         {
+			// Initialize Private Attributes
+			fovDistance = 3f;
+			fovAngle = 60f;
+
             CachePersonObjects();
             CacheToyObjects();
         }
 
+
+		/// <summary>
+		/// Caches the person objects.
+		/// </summary>
         private void CachePersonObjects()
         {
             personPrefabs = GameObject.FindGameObjectsWithTag("Person");
@@ -43,6 +49,10 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Caches the toy objects.
+		/// </summary>
         private void CacheToyObjects()
         {
             toyPrefabs = GameObject.FindGameObjectsWithTag("Toy");
@@ -54,19 +64,24 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Start this instance.
+		/// </summary>
         private void Start()
         {
-            gameIsRunning = true;
             StartCoroutine(TrackViewOfToys());
         }
 
 
+		/// <summary>
+		/// Tracks the view of toys.
+		/// </summary>
+		/// <returns>The view of toys.</returns>
         private IEnumerator TrackViewOfToys()
         {
             while (true)
             {
-                if (gameIsRunning)
-                {
                     for (int p = 0; p < personPrefabs.Length; p++)
                     {
                         for (int t = 0; t < toyPrefabs.Length; t++)
@@ -82,13 +97,17 @@ namespace ToyRoom
                         }
                     }
 
-                }
-
                 yield return new WaitForSeconds(0.35f);
             }
         }
 
 
+		/// <summary>
+		/// Determines whether a given Person can see a given Toy
+		/// </summary>
+		/// <returns><c>true</c> if the Person can see the toy; otherwise, <c>false</c>.</returns>
+		/// <param name="person">Person.</param>
+		/// <param name="toy">Toy.</param>
         private bool CanSeeToy(Transform person, Transform toy)
         {
             direction = toy.position - person.position;
@@ -105,6 +124,7 @@ namespace ToyRoom
 
             return false;
         }
-    }
 
-}
+    } // end of class
+
+} // end of namespace
