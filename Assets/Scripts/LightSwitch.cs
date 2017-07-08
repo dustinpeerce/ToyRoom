@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace ToyRoom
 {
 
+    public class LightSwitch : MonoBehaviour 
+	{
+		// Public Attributes
+        public House houseInstance;		// Instance of the House
+        public Material upMat;			// Material for unpressed Light Switch
+        public Material downMat;		// Material for pressed Light Switch
 
-    public class LightSwitch : MonoBehaviour {
+		// Private Attributes
+        private Vector3 downPos;		// Position for pressed Light Switch
+        private Vector3 upPos;			// Position for unpressed Light Switch
+        private MeshRenderer mesh;		// Mesh Renderer for the Light Switch
 
-        public House houseInstance;
-        public Material upMat;
-        public Material downMat;
 
-        private Vector3 downPos;
-        private Vector3 upPos;
-        private MeshRenderer mesh;
-
+		/// <summary>
+		/// Awake this instance.
+		/// </summary>
         private void Awake()
         {
             upPos = transform.position;
@@ -23,6 +29,11 @@ namespace ToyRoom
             mesh = GetComponent<MeshRenderer>();
         }
 
+
+		/// <summary>
+		/// Raises the trigger enter event.
+		/// </summary>
+		/// <param name="other">Other.</param>
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.name == "Car")
@@ -34,6 +45,11 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Raises the trigger exit event.
+		/// </summary>
+		/// <param name="other">Other.</param>
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.name == "Car")
@@ -44,5 +60,7 @@ namespace ToyRoom
                 mesh.material = upMat;
             }
         }
-    }
-}
+
+    } // end of class
+
+} // end of namespace

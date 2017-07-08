@@ -10,38 +10,51 @@ namespace ToyRoom
     {
 
 		// Public Attributes
-		public enum HouseState { Opened, Closed, Changing }
-        public Material lightsOnHouseMat;
-        public Material lightsOffHouseMat;
-        public Material lightsOnWindowMat;
-        public Material lightsOffWindowMat;
-        public List<MeshRenderer> windowObjects;
-        public List<MeshRenderer> houseObjects;
+		public enum HouseState { Opened, Closed, Changing }		// Possible states for the House
+        public Material lightsOnHouseMat;			// Material for House when Lights are On
+        public Material lightsOffHouseMat;			// Material for House when Lights are Off
+        public Material lightsOnWindowMat;			// Material for Windows when Lights are On
+        public Material lightsOffWindowMat;			// Material for Windows when Lights are Off
+        public List<MeshRenderer> windowObjects;	// List of Window Mesh Renderers
+        public List<MeshRenderer> houseObjects;		// List of House Mesh Renderers
 
 		// Private Attributes
-        private Animator animator;
-        private HouseState currentState;
-        private bool isOn;
+        private Animator animator;			// Animator Component for the House
+        private HouseState currentState;	// Tracks the current state of the House
+        private bool isOn;					// Tracks whether the Lights are On or not
 
+
+		/// <summary>
+		/// Awake this instance.
+		/// </summary>
         private void Awake()
         {
-            animator = GetComponent<Animator>();
-
+			// Initialize Animator Parameter Dictionary
             canSeeToyKey = GameVals.AnimatorParameterKeys.canSeeHouse;
             animatorParamDictionary = new Dictionary<string, bool>();
             animatorParamDictionary.Add(canSeeToyKey, false);
-            animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.houseIsOpen, false);
+            animatorParamDictionary.Add(GameVals.AnimatorParameterKeys.houseIsOpen, false); 
 
-            CurrentState = HouseState.Closed;
-            IsOn = false;
+			// Initialize Private Attributes
+			animator = GetComponent<Animator>();
+			CurrentState = HouseState.Closed;
+			IsOn = false;
         }
 
 
+		/// <summary>
+		/// Sets IsGazedAt to gazedAt.
+		/// </summary>
+		/// <param name="gazedAt">If set to <c>true</c> gazed at.</param>
         public void SetGazedAt(bool gazedAt)
         {
             animator.SetBool("IsGazedAt", gazedAt);
         }
 
+
+		/// <summary>
+		/// Toggles the house open.
+		/// </summary>
         public void ToggleHouseOpen()
         {
             if (CurrentState != HouseState.Changing)
@@ -64,6 +77,10 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Shakes the house.
+		/// </summary>
         private void ShakeHouse()
         {
             AudioManager.Instance.PlayAudio(AudioManager.Instance.houseShake);
@@ -72,6 +89,10 @@ namespace ToyRoom
             CurrentState = HouseState.Changing;
         }
 
+
+		/// <summary>
+		/// Opens the house.
+		/// </summary>
         private void OpenHouse()
         {
             AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
@@ -80,6 +101,10 @@ namespace ToyRoom
             CurrentState = HouseState.Changing;
         }
 
+
+		/// <summary>
+		/// Closes the house.
+		/// </summary>
         private void CloseHouse()
         {
             AudioManager.Instance.PlayAudio(AudioManager.Instance.houseOpen);
@@ -88,6 +113,11 @@ namespace ToyRoom
             CurrentState = HouseState.Changing;
         }
 
+
+		/// <summary>
+		/// Executed when the House is done changing (called as an Animation Event)
+		/// </summary>
+		/// <param name="isOpenInteger">Indicates whether the House is open or not (0 meaning false)</param>
         public void HouseChangeComplete(int isOpenInteger)
         {
             if (isOpenInteger == 0)
@@ -100,6 +130,48 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Turns the lights on.
+		/// </summary>
+		private void TurnLightsOn() {
+			foreach(MeshRenderer window in windowObjects)
+			{
+				window.material = lightsOnWindowMat;
+			}
+
+			foreach (MeshRenderer house in houseObjects)
+			{
+				house.material = lightsOnHouseMat;
+			}
+		}
+
+
+		/// <summary>
+		/// Turns the lights off.
+		/// </summary>
+		private void TurnLightsOff() {
+			foreach (MeshRenderer window in windowObjects)
+			{
+				window.material = lightsOffWindowMat;
+			}
+
+			foreach (MeshRenderer house in houseObjects)
+			{
+				house.material = lightsOffHouseMat;
+			}
+
+			if (CurrentState == HouseState.Opened)
+			{
+				CloseHouse();
+			}
+		}
+
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is on.
+		/// </summary>
+		/// <value><c>true</c> if this instance is on; otherwise, <c>false</c>.</value>
         public bool IsOn
         {
             get { return isOn; }
@@ -108,35 +180,19 @@ namespace ToyRoom
                 isOn = value;
                 if (isOn)
                 {
-                    foreach(MeshRenderer window in windowObjects)
-                    {
-                        window.material = lightsOnWindowMat;
-                    }
-
-                    foreach (MeshRenderer house in houseObjects)
-                    {
-                        house.material = lightsOnHouseMat;
-                    }
+					TurnLightsOn ();
                 }
                 else {
-                    foreach (MeshRenderer window in windowObjects)
-                    {
-                        window.material = lightsOffWindowMat;
-                    }
-
-                    foreach (MeshRenderer house in houseObjects)
-                    {
-                        house.material = lightsOffHouseMat;
-                    }
-
-                    if (CurrentState == HouseState.Opened)
-                    {
-                        CloseHouse();
-                    }
+					TurnLightsOff ();
                 }
             }
         }
 
+
+		/// <summary>
+		/// Gets or sets the state of the House.
+		/// </summary>
+		/// <value>The state of the current.</value>
         private HouseState CurrentState
         {
             get { return currentState; }

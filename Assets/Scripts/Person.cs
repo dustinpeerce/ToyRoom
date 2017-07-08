@@ -8,12 +8,18 @@ namespace ToyRoom
 
     public class Person : MonoBehaviour
     {
+		// Public Attributes
+        public Animator animator;		// Animator Component for the Person
 
-        public Animator animator;
 
+		/// <summary>
+		/// Updates the view parameters.
+		/// </summary>
+		/// <param name="animParams">Animation parameters.</param>
+		/// <param name="canSeeToyKey">Can see toy key.</param>
         public void UpdateViewParameters(Dictionary<string, bool> animParams, string canSeeToyKey)
         {
-            if (animParams[canSeeToyKey])
+            if (animParams[canSeeToyKey]) // The Person can see the toy...
             {
                 foreach (var animParam in animParams)
                 {
@@ -21,7 +27,7 @@ namespace ToyRoom
                 }
                 return;
             }
-            else
+            else // The Person can NOT see the toy...
             {
                 foreach (var animParam in animParams)
                 {
@@ -31,6 +37,6 @@ namespace ToyRoom
             }
         }
 
-    }
+    } // end of class
 
-}
+} // end of namespace

@@ -7,16 +7,25 @@ namespace ToyRoom
 
     public class Lifetime : MonoBehaviour
     {
+		// Public Attributes
+        public float lifespan = 5.0f;	// Time in seconds for the instance to exist
 
-        public float lifespan = 5.0f;
+		// Private Attributes
+        private float lifeCounter;		// Tracks how long the instance has been alive
 
-        private float lifeCounter;
 
+		/// <summary>
+		/// Start this instance.
+		/// </summary>
         private void Start()
         {
             lifeCounter = lifespan;
         }
 
+
+		/// <summary>
+		/// Update this instance.
+		/// </summary>
         private void Update()
         {
             lifeCounter -= Time.deltaTime;
@@ -26,5 +35,7 @@ namespace ToyRoom
                 Destroy(gameObject);
             }
         }
-    }
-}
+
+    } // end of class
+
+} // end of namespace

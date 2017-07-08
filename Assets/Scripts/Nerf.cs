@@ -8,13 +8,17 @@ namespace ToyRoom
 
     public class Nerf : Toy
     {
+		// Public Attributes
+        public Transform dartPos;		// Dart Spawn Position
+        public GameObject dartPrefab;	// Dart Prefab
 
-        public Transform dartPos;
-        public GameObject dartPrefab;
-
-        private Animator animator;
+		// Private Attributes
+        private Animator animator;		// Animator component for Nerf Gun
 
 
+		/// <summary>
+		/// Awake this instance.
+		/// </summary>
         private void Awake()
         {
             animator = GetComponent<Animator>();
@@ -27,6 +31,10 @@ namespace ToyRoom
         }
 
 
+		/// <summary>
+		/// Sets gazedAt.
+		/// </summary>
+		/// <param name="gazedAt">If set to <c>true</c> gazed at.</param>
         public void SetGazedAt(bool gazedAt)
         {
             animatorParamDictionary[GameVals.AnimatorParameterKeys.gunIsGazed] = gazedAt;
@@ -34,6 +42,10 @@ namespace ToyRoom
             animator.SetBool("IsGazedAt", animatorParamDictionary[GameVals.AnimatorParameterKeys.gunIsGazed]);
         }
 
+
+		/// <summary>
+		/// Fires the dart.
+		/// </summary>
         public void FireDart()
         {
             AudioManager.Instance.PlayAudio(AudioManager.Instance.dartFire);
@@ -45,6 +57,6 @@ namespace ToyRoom
             obj.GetComponent<Rigidbody>().AddForce(vForce);
         }
 
-    }
+    } // end of class
 
-}
+} // end of namespace

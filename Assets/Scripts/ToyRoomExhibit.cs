@@ -8,9 +8,14 @@ namespace ToyRoom
 
     public class ToyRoomExhibit : MonoBehaviour
     {
+		// Public Attributes
+        public Animator animator;	// Animator Component for the object
 
-        public Animator animator;
 
+		/// <summary>
+		/// Sets gazedAt.
+		/// </summary>
+		/// <param name="gazedAt">If set to <c>true</c> gazed at.</param>
         public void SetGazedAt(bool gazedAt)
         {
             if (gazedAt)
@@ -25,9 +30,15 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Loads the toy room scene.
+		/// </summary>
         public void LoadToyRoom()
         {
             SceneManager.LoadScene("ToyRoom");
         }
-    }
-}
+
+    } // end of class
+
+} // end of namespace

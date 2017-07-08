@@ -5,13 +5,20 @@ using UnityEngine;
 namespace ToyRoom
 {
 
-    public class Person_LayDown : MonoBehaviour {
+    public class Person_LayDown : MonoBehaviour
+	{
+		// Public Attributes
+        public Animator animator;	// Animator Component for the Person
 
-        public Animator animator;
 
+		/// <summary>
+		/// Awake this instance.
+		/// </summary>
         private void Awake()
         {
             animator.SetBool(GameVals.AnimatorParameterKeys.layDown, true);
         }
-    }
-}
+
+    } // end of class
+
+} // end of namespace

@@ -7,48 +7,63 @@ namespace ToyRoom
 
     public class Lever : MonoBehaviour
     {
-        public enum TrackIndex { TrackOne, TrackTwo };
+		// Public Attributes
+        public enum TrackIndex { TrackOne, TrackTwo }		// Possible states for the Road
+		public enum LeverState { Left, Right, Changing }	// Possible states for the Lever
+		public Car carInstance;					// Car instance in the scene
+        public GameObject trackOne;				// Road Mesh for Track One
+        public GameObject trackTwo;				// Road Mesh for Track Two
+        public Material darkRoadMat;			// Material for inactive Road
+        public Material lightRoadMat;			// Material for active Road
+        public Material darkLeverMat;			// Material for inactive Lever
+        public Material lightLeverMat;			// Material for active Lever
+        public List<MeshRenderer> leverObjects;	// List of Lever Mesh Renderers
 
-        public Car carInstance;
-        public GameObject trackOne;
-        public GameObject trackTwo;
-        public Material darkRoadMat;
-        public Material lightRoadMat;
-        public Material darkLeverMat;
-        public Material lightLeverMat;
-        public List<MeshRenderer> leverObjects;
+		// Private Attributes
+        private Animator animator;				// Animator component for the Lever
+        private bool isUnlocked;				// Tracks whether the Lever has been unlocked or not
+        private MeshRenderer trackOneRenderer;	// Mesh Renderer component for Track One
+        private MeshRenderer trackTwoRenderer;	// Mesh Renderer component for Track Two
+        private LeverState currentState;		// Tracks the current state of the Lever
+        private TrackIndex currentTrackIndex;	// Tracks the current state of the Road
 
-        private Animator animator;
-        private bool isUnlocked;
-        private MeshRenderer trackOneRenderer;
-        private MeshRenderer trackTwoRenderer;
 
-        public enum LeverState { Left, Right, Changing };
-        private LeverState currentState;
-
-        private TrackIndex currentTrackIndex;
-
+		/// <summary>
+		/// Awake this instance.
+		/// </summary>
         private void Awake()
         {
             isUnlocked = false;
             currentState = LeverState.Left;
+			currentTrackIndex = TrackIndex.TrackOne;
             animator = GetComponent<Animator>();
-
             trackOneRenderer = trackOne.GetComponent<MeshRenderer>();
             trackTwoRenderer = trackTwo.GetComponent<MeshRenderer>();
         }
 
+
+		/// <summary>
+		/// Start this instance.
+		/// </summary>
         private void Start()
         {
-            currentTrackIndex = TrackIndex.TrackOne;
             UpdateTrack();
         }
 
+
+		/// <summary>
+		/// Sets gazedAt.
+		/// </summary>
+		/// <param name="gazedAt">If set to <c>true</c> gazed at.</param>
         public void SetGazedAt(bool gazedAt)
         {
             
         }
 
+
+		/// <summary>
+		/// Pulls the lever.
+		/// </summary>
         public void PullLever()
         {
             if (currentState != LeverState.Changing)
@@ -71,6 +86,10 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Pulls the lever left.
+		/// </summary>
         private void PullLeft()
         {
             animator.SetTrigger("PullLeft");
@@ -79,6 +98,10 @@ namespace ToyRoom
             currentState = LeverState.Changing;
         }
 
+
+		/// <summary>
+		/// Pulls the lever right.
+		/// </summary>
         private void PullRight()
         {
             animator.SetTrigger("PullRight");
@@ -87,6 +110,10 @@ namespace ToyRoom
             currentState = LeverState.Changing;
         }
 
+
+		/// <summary>
+		/// Fails to pull the lever
+		/// </summary>
         private void PullFail()
         {
             animator.SetTrigger("PullRight");
@@ -95,6 +122,11 @@ namespace ToyRoom
             currentState = LeverState.Changing;
         }
 
+
+		/// <summary>
+		/// Executed when the Lever is done changing (called as an Animation Event)
+		/// </summary>
+		/// <param name="isLeftInteger">Is left integer.</param>
         public void PullStateComplete(int isLeftInteger)
         {
             if (isLeftInteger == 0)
@@ -110,11 +142,20 @@ namespace ToyRoom
             ChangeCurrentTrackIndex();
         }
 
+
+		/// <summary>
+		/// Executed when the Pull Failure is complete (called as an Animation Event)
+		/// </summary>
         public void PullFailComplete()
         {
             currentState = LeverState.Left;
         }
 
+
+		/// <summary>
+		/// Raises the trigger enter event.
+		/// </summary>
+		/// <param name="other">Other.</param>
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Dart"))
@@ -134,6 +175,10 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Updates the track.
+		/// </summary>
         private void UpdateTrack()
         {
             if (currentTrackIndex == TrackIndex.TrackOne)
@@ -148,6 +193,10 @@ namespace ToyRoom
             }
         }
 
+
+		/// <summary>
+		/// Changes the active Track.
+		/// </summary>
         private void ChangeCurrentTrackIndex()
         {
             if (currentTrackIndex == TrackIndex.TrackOne)
@@ -157,6 +206,7 @@ namespace ToyRoom
 
             UpdateTrack();
         }
-    }
+    
+	} // end of class
 
-}
+} // end of namespace
