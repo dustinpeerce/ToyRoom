@@ -16,7 +16,7 @@ namespace ToyRoom
 		/// </summary>
         private void Awake()
         {
-            animator.SetBool(GameVals.AnimatorParameterKeys.layDown, true);
+            animator.SetBool(GameVals.AnimParams.layDown, true);
         }
 
     } // end of class

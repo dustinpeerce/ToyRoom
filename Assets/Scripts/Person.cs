@@ -8,16 +8,23 @@ namespace ToyRoom
 
     public class Person : MonoBehaviour
     {
-		// Public Attributes
-        public Animator animator;		// Animator Component for the Person
+        // Public Attributes
+        public Animator animator;
+
+        private Dictionary<string, PersonTrigger> triggers;
 
 
-		/// <summary>
-		/// Updates the view parameters.
-		/// </summary>
-		/// <param name="animParams">Animation parameters.</param>
-		/// <param name="canSeeToyKey">Can see toy key.</param>
-        public void UpdateViewParameters(Dictionary<string, bool> animParams, string canSeeToyKey)
+        private void Awake()
+        {
+            triggers = new Dictionary<string, PersonTrigger>();
+            for(int i=0; i < GameVals.personTriggers.Length; i++)
+            {
+                triggers[GameVals.personTriggers[i].Name] = GameVals.personTriggers[i];
+            }
+        }
+
+        
+        public void old_UpdateViewParameters(Dictionary<string, bool> animParams, string canSeeToyKey)
         {
             if (animParams[canSeeToyKey]) // The Person can see the toy...
             {
@@ -37,6 +44,32 @@ namespace ToyRoom
             }
         }
 
-    } // end of class
+        public void UpdateViewParameters(Dictionary<string, bool> animParams, string canSeeToyKey)
+        {
+            foreach (var animParam in animParams)
+            {
+                triggers[animParam.Key].Value = animParam.Value;
+                //triggers[animParam.Key].CanSee = animParams[canSeeToyKey];
+            }
+        }
 
-} // end of namespace
+        public void ProcessTriggers()
+        {
+            string largest = "";
+            foreach(var trigger in triggers)
+            {
+                if (trigger.Value.Value && (largest == "" || trigger.Value.Rank > triggers[largest].Rank))
+                {
+                    largest = trigger.Key;
+                }
+            }
+
+            if (largest != "" && triggers[largest].Rank > 0)
+            {
+                animator.SetBool(largest, triggers[largest].Value);
+            }
+        }
+
+    }
+
+}

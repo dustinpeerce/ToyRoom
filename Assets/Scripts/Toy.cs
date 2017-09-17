@@ -20,7 +20,7 @@ namespace ToyRoom
 		/// <param name="canSee">If set to <c>true</c> can see.</param>
         public Dictionary<string, bool> GetAnimatorParams(bool canSee)
         {
-            animatorParamDictionary[canSeeToyKey] = canSee;
+            //animatorParamDictionary[canSeeToyKey] = canSee;
             return animatorParamDictionary;
         }
 

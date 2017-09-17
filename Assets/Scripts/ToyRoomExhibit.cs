@@ -20,13 +20,13 @@ namespace ToyRoom
         {
             if (gazedAt)
             {
-                animator.SetBool(GameVals.AnimatorParameterKeys.canSeeCar, true);
-                animator.SetBool(GameVals.AnimatorParameterKeys.carIsDriving, true);
+                animator.SetBool(GameVals.AnimParams.canSeeCar, true);
+                animator.SetBool(GameVals.AnimParams.carIsDriving, true);
             }
             else
             {
-                animator.SetBool(GameVals.AnimatorParameterKeys.canSeeCar, false);
-                animator.SetBool(GameVals.AnimatorParameterKeys.carIsDriving, false);
+                animator.SetBool(GameVals.AnimParams.canSeeCar, false);
+                animator.SetBool(GameVals.AnimParams.carIsDriving, false);
             }
         }
 

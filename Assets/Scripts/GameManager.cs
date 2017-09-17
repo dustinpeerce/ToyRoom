@@ -95,6 +95,7 @@ namespace ToyRoom
                             // Update the animator key-value pairs for the Person
                             personScripts[p].UpdateViewParameters(animParams, toyScripts[t].CanSeeToyKey);
                         }
+                        personScripts[p].ProcessTriggers();
                     }
 
                 yield return new WaitForSeconds(0.35f);
