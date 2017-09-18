@@ -34,11 +34,9 @@ namespace ToyRoom
 			}
 
 			// Initialize Animator Parameter Dictionary
-            canSeeToyKey = GameVals.AnimParams.canSeeGlobe;
-            animatorParamDictionary = new Dictionary<string, bool>();
-            //animatorParamDictionary.Add(canSeeToyKey, false);
-            animatorParamDictionary.Add(GameVals.AnimParams.globeIsSpinning, false);
-            animatorParamDictionary.Add(GameVals.AnimParams.globeIsDancing, false);
+            animParamDictionary = new Dictionary<string, bool>();
+            animParamDictionary.Add(GameVals.AnimParams.globeIsSpinning, false);
+            animParamDictionary.Add(GameVals.AnimParams.globeIsDancing, false);
         }
 			
 
@@ -76,7 +74,7 @@ namespace ToyRoom
 				}
             }
 				
-            animatorParamDictionary[GameVals.AnimParams.globeIsDancing] = isDanceMode;
+            animParamDictionary[GameVals.AnimParams.globeIsDancing] = isDanceMode;
         }
 
 
@@ -130,7 +128,7 @@ namespace ToyRoom
 
                     if (spinCount > 0) // we just started spinning...
                     {
-                        animatorParamDictionary[GameVals.AnimParams.globeIsSpinning] = true;
+                        animParamDictionary[GameVals.AnimParams.globeIsSpinning] = true;
                     }
                 }
                 else // currently spinning
@@ -139,7 +137,7 @@ namespace ToyRoom
 
                     if (spinCount <= 0) // we just stopped spinning...
                     {
-                        animatorParamDictionary[GameVals.AnimParams.globeIsSpinning] = false;
+                        animParamDictionary[GameVals.AnimParams.globeIsSpinning] = false;
                     }
                 }
             }

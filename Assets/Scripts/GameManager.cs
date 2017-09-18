@@ -12,12 +12,14 @@ namespace ToyRoom
 		// Private Attributes
 		private float fovDistance;						// Field of View Distance for People
 		private float fovAngle;							// Field of View Angle for People
+        private float hearingDistance;
         private GameObject[] personPrefabs;				// Stores all Person prefabs in the scene
         private GameObject[] toyPrefabs;				// Stores all Toy prefabs in the scene
         private List<Person> personScripts;				// List of Person components on each Person prefab
         private List<Toy> toyScripts;					// List of Toy components on each Toy prefab
         private Vector3 direction;						// The direction vector between a Person and Toy
         private bool canSee;							// Tracks whether a Person can see a Toy
+        private bool canHear;
         private Dictionary<string, bool> animParams;	// Stores animator params for the Toy instances
 
 
@@ -29,6 +31,7 @@ namespace ToyRoom
 			// Initialize Private Attributes
 			fovDistance = 3f;
 			fovAngle = 60f;
+            hearingDistance = 2f;
 
             CachePersonObjects();
             CacheToyObjects();
@@ -89,11 +92,14 @@ namespace ToyRoom
                             // does the player see the toy?
                             canSee = CanSeeToy(personPrefabs[p].transform, toyPrefabs[t].transform);
 
+                            // does the player hear the toy?
+                            canHear = CanHearToy(personPrefabs[p].transform, toyPrefabs[t].transform);
+
                             // store the animator key-value pairs for this toy
-                            animParams = toyScripts[t].GetAnimatorParams(canSee);
+                            animParams = toyScripts[t].GetAnimParams();
 
                             // Update the animator key-value pairs for the Person
-                            personScripts[p].UpdateViewParameters(animParams, toyScripts[t].CanSeeToyKey);
+                            personScripts[p].UpdateViewParameters(animParams, canSee, canHear);
                         }
                         personScripts[p].ProcessTriggers();
                     }
@@ -121,6 +127,19 @@ namespace ToyRoom
                 {
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        private bool CanHearToy(Transform person, Transform toy)
+        {
+            direction = toy.position - person.position;
+
+            // Detect if toy is within hearing distance
+            if (direction.magnitude < hearingDistance)
+            {
+                return true;
             }
 
             return false;

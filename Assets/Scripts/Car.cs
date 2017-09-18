@@ -37,11 +37,9 @@ namespace ToyRoom
 			carStartPos = transform.position;
 
 			// Initialize Animator Parameter Dictionary
-            canSeeToyKey = GameVals.AnimParams.canSeeCar;
-            animatorParamDictionary = new Dictionary<string, bool>();
-            //animatorParamDictionary.Add(canSeeToyKey, false);
-            animatorParamDictionary.Add(GameVals.AnimParams.carIsGazed, false);
-            animatorParamDictionary.Add(GameVals.AnimParams.carIsDriving, false);
+            animParamDictionary = new Dictionary<string, bool>();
+            animParamDictionary.Add(GameVals.AnimParams.carIsGazed, false);
+            animParamDictionary.Add(GameVals.AnimParams.carIsDriving, false);
         }
 
 
@@ -72,7 +70,7 @@ namespace ToyRoom
             track = new LTSpline(points);
             LeanTween.moveSpline(this.gameObject, track, 10.0f).setOrientToPath(true).setLoopClamp();
 
-            if (!animatorParamDictionary[GameVals.AnimParams.carIsDriving])
+            if (!animParamDictionary[GameVals.AnimParams.carIsDriving])
             {
                 LeanTween.pauseAll();
             }
@@ -102,7 +100,7 @@ namespace ToyRoom
 		/// <param name="gazedAt">If set to <c>true</c> the car is gazed at.</param>
         public void SetGazedAt(bool gazedAt)
         {
-            animatorParamDictionary[GameVals.AnimParams.carIsGazed] = gazedAt;
+            animParamDictionary[GameVals.AnimParams.carIsGazed] = gazedAt;
 			carMeshRenderer.material = gazedAt ? gazedAtMaterial : defaultMaterial;
         }
 
@@ -112,7 +110,7 @@ namespace ToyRoom
 		/// </summary>
         public void ToggleDriving()
         {
-            if (animatorParamDictionary[GameVals.AnimParams.carIsDriving])
+            if (animParamDictionary[GameVals.AnimParams.carIsDriving])
             {
                 StopDriving();
             }
@@ -147,7 +145,7 @@ namespace ToyRoom
         private void StartDriving()
         {
             LeanTween.resumeAll();
-            animatorParamDictionary[GameVals.AnimParams.carIsDriving] = true;
+            animParamDictionary[GameVals.AnimParams.carIsDriving] = true;
         }
 
 
@@ -157,7 +155,7 @@ namespace ToyRoom
         private void StopDriving()
         {
             LeanTween.pauseAll();
-            animatorParamDictionary[GameVals.AnimParams.carIsDriving] = false;
+            animParamDictionary[GameVals.AnimParams.carIsDriving] = false;
         }
 
         

@@ -23,11 +23,9 @@ namespace ToyRoom
         {
             animator = GetComponent<Animator>();
 
-            canSeeToyKey = GameVals.AnimParams.canSeeGun;
-            animatorParamDictionary = new Dictionary<string, bool>();
-            //animatorParamDictionary.Add(canSeeToyKey, false);
-            animatorParamDictionary.Add(GameVals.AnimParams.gunIsGazed, false);
-            animatorParamDictionary.Add(GameVals.AnimParams.gunHasShotFront, false);
+            animParamDictionary = new Dictionary<string, bool>();
+            animParamDictionary.Add(GameVals.AnimParams.gunIsGazed, false);
+            animParamDictionary.Add(GameVals.AnimParams.gunHasShotFront, false);
         }
 
 
@@ -37,9 +35,9 @@ namespace ToyRoom
 		/// <param name="gazedAt">If set to <c>true</c> gazed at.</param>
         public void SetGazedAt(bool gazedAt)
         {
-            animatorParamDictionary[GameVals.AnimParams.gunIsGazed] = gazedAt;
+            animParamDictionary[GameVals.AnimParams.gunIsGazed] = gazedAt;
 
-            animator.SetBool("IsGazedAt", animatorParamDictionary[GameVals.AnimParams.gunIsGazed]);
+            animator.SetBool("IsGazedAt", animParamDictionary[GameVals.AnimParams.gunIsGazed]);
         }
 
 

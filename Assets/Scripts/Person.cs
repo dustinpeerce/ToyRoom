@@ -23,38 +23,21 @@ namespace ToyRoom
             }
         }
 
-        
-        public void old_UpdateViewParameters(Dictionary<string, bool> animParams, string canSeeToyKey)
-        {
-            if (animParams[canSeeToyKey]) // The Person can see the toy...
-            {
-                foreach (var animParam in animParams)
-                {
-                    animator.SetBool(animParam.Key, animParam.Value);
-                }
-                return;
-            }
-            else // The Person can NOT see the toy...
-            {
-                foreach (var animParam in animParams)
-                {
-                    animator.SetBool(animParam.Key, false);
-                }
-                return;
-            }
-        }
-
-        public void UpdateViewParameters(Dictionary<string, bool> animParams, string canSeeToyKey)
+        public void UpdateViewParameters(Dictionary<string, bool> animParams, bool canSee, bool canHear)
         {
             foreach (var animParam in animParams)
             {
-                triggers[animParam.Key].Value = animParam.Value;
-                //triggers[animParam.Key].CanSee = animParams[canSeeToyKey];
+                triggers[animParam.Key].Value = (canSee || canHear) ? animParam.Value : false;
             }
         }
 
         public void ProcessTriggers()
         {
+            foreach (var parameter in animator.parameters)
+            {
+                animator.SetBool(parameter.name, false);
+            }
+
             string largest = "";
             foreach(var trigger in triggers)
             {
@@ -66,7 +49,7 @@ namespace ToyRoom
 
             if (largest != "" && triggers[largest].Rank > 0)
             {
-                animator.SetBool(largest, triggers[largest].Value);
+                animator.SetBool(largest, true);
             }
         }
 

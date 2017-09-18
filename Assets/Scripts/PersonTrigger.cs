@@ -8,7 +8,6 @@ namespace ToyRoom
     {
         private string n;       // name
         private bool v;         // value
-        private bool c;         // can see
         private float r;        // rank
         private string[] t;     // trigger combinations
 
@@ -27,7 +26,6 @@ namespace ToyRoom
         {
             n = name;
             v = false;
-            c = false;
             r = rank;
         }
 
@@ -41,12 +39,6 @@ namespace ToyRoom
         {
             get { return v; }
             set { v = value; }
-        }
-
-        public bool CanSee
-        {
-            get { return c; }
-            set { c = value; }
         }
 
         public float Rank

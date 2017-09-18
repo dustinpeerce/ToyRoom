@@ -30,10 +30,8 @@ namespace ToyRoom
         private void Awake()
         {
 			// Initialize Animator Parameter Dictionary
-            canSeeToyKey = GameVals.AnimParams.canSeeHouse;
-            animatorParamDictionary = new Dictionary<string, bool>();
-            //animatorParamDictionary.Add(canSeeToyKey, false);
-            animatorParamDictionary.Add(GameVals.AnimParams.houseIsOpen, false); 
+            animParamDictionary = new Dictionary<string, bool>();
+            animParamDictionary.Add(GameVals.AnimParams.houseIsOpen, false); 
 
 			// Initialize Private Attributes
 			animator = GetComponent<Animator>();
@@ -202,11 +200,11 @@ namespace ToyRoom
 
                 if (currentState == HouseState.Opened)
                 {
-                    animatorParamDictionary[GameVals.AnimParams.houseIsOpen] = true;
+                    animParamDictionary[GameVals.AnimParams.houseIsOpen] = true;
                 }
                 else
                 {
-                    animatorParamDictionary[GameVals.AnimParams.houseIsOpen] = false;
+                    animParamDictionary[GameVals.AnimParams.houseIsOpen] = false;
                 }
             }
         }
