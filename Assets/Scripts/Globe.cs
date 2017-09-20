@@ -35,6 +35,7 @@ namespace ToyRoom
 
 			// Initialize Animator Parameter Dictionary
             animParamDictionary = new Dictionary<string, bool>();
+            animParamDictionary.Add(GameVals.AnimParams.globeDefault, false);
             animParamDictionary.Add(GameVals.AnimParams.globeIsSpinning, false);
             animParamDictionary.Add(GameVals.AnimParams.globeIsDancing, false);
         }

@@ -31,6 +31,7 @@ namespace ToyRoom
         {
 			// Initialize Animator Parameter Dictionary
             animParamDictionary = new Dictionary<string, bool>();
+            animParamDictionary.Add(GameVals.AnimParams.houseDefault, false);
             animParamDictionary.Add(GameVals.AnimParams.houseIsOpen, false); 
 
 			// Initialize Private Attributes

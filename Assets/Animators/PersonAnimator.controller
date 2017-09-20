@@ -56,6 +56,30 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: CarDefault
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: GunDefault
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: GlobeDefault
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: HouseDefault
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -124,20 +148,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: CarIsGazed
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: CarIsDriving
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GunIsGazed
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GlobeIsDancing
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: HouseIsOpen
+  - m_ConditionMode: 1
+    m_ConditionEvent: CarDefault
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102123550813700504}
@@ -187,15 +199,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: CarIsDriving
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GunIsGazed
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GlobeIsDancing
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: HouseIsOpen
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102102046434231438}
   m_Solo: 0
@@ -219,9 +222,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: GlobeIsDancing
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GunIsGazed
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102184456888507300}
@@ -370,20 +370,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: CarIsGazed
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: CarIsDriving
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GunIsGazed
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GlobeIsDancing
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: HouseIsOpen
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102695798224083014}
@@ -409,18 +397,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: CarIsGazed
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: CarIsDriving
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GunIsGazed
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GlobeIsDancing
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: HouseIsOpen
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102111839830613120}
   m_Solo: 0
@@ -444,9 +420,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: GlobeIsSpinning
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: GunIsGazed
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102931097333279522}

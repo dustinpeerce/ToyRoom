@@ -38,6 +38,7 @@ namespace ToyRoom
 
 			// Initialize Animator Parameter Dictionary
             animParamDictionary = new Dictionary<string, bool>();
+            animParamDictionary.Add(GameVals.AnimParams.carDefault, false);
             animParamDictionary.Add(GameVals.AnimParams.carIsGazed, false);
             animParamDictionary.Add(GameVals.AnimParams.carIsDriving, false);
         }
