@@ -8,6 +8,10 @@ namespace ToyRoom
 
     public class Toy : MonoBehaviour
     {
+
+        // TODO: add protected string for defaultToyKey
+        // TODO: on each Toy script, set the defaultToyKey
+
 		// Protected Attributes
         protected Dictionary<string, bool> animParamDictionary;		// Dictionary for storing all Animation Parameters
 
@@ -18,6 +22,7 @@ namespace ToyRoom
 		/// <returns>The animator parameters.</returns>
         public Dictionary<string, bool> GetAnimParams()
         {
+            // TODO: if animParams are all false, set animParams[defaultToyKey] = true
             return animParamDictionary;
         }
 

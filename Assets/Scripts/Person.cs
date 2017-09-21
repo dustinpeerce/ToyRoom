@@ -50,6 +50,12 @@ namespace ToyRoom
             if (largest != "" && triggers[largest].Rank > 0)
             {
                 animator.SetBool(largest, true);
+
+                // TODO: implement triggerCombos, so triggers can be combined
+            }
+            else
+            {
+                animator.SetBool("Default", true);
             }
         }
 
