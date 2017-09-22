@@ -29,9 +29,10 @@ namespace ToyRoom
 		/// </summary>
         private void Awake()
         {
-			// Initialize Animator Parameter Dictionary
+            // Initialize Animator Parameter Dictionary
+            defaultToyKey = GameVals.AnimParams.houseDefault;
             animParamDictionary = new Dictionary<string, bool>();
-            animParamDictionary.Add(GameVals.AnimParams.houseDefault, false);
+            animParamDictionary.Add(defaultToyKey, false);
             animParamDictionary.Add(GameVals.AnimParams.houseIsOpen, false); 
 
 			// Initialize Private Attributes

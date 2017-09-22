@@ -23,8 +23,9 @@ namespace ToyRoom
         {
             animator = GetComponent<Animator>();
 
+            defaultToyKey = GameVals.AnimParams.gunDefault;
             animParamDictionary = new Dictionary<string, bool>();
-            animParamDictionary.Add(GameVals.AnimParams.gunDefault, false);
+            animParamDictionary.Add(defaultToyKey, false);
             animParamDictionary.Add(GameVals.AnimParams.gunIsGazed, false);
             animParamDictionary.Add(GameVals.AnimParams.gunHasShotFront, false);
         }

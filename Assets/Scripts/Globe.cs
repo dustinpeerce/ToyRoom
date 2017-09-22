@@ -33,9 +33,10 @@ namespace ToyRoom
 				lands.Add (child.GetComponent<Land> ());
 			}
 
-			// Initialize Animator Parameter Dictionary
+            // Initialize Animator Parameter Dictionary
+            defaultToyKey = GameVals.AnimParams.globeDefault;
             animParamDictionary = new Dictionary<string, bool>();
-            animParamDictionary.Add(GameVals.AnimParams.globeDefault, false);
+            animParamDictionary.Add(defaultToyKey, false);
             animParamDictionary.Add(GameVals.AnimParams.globeIsSpinning, false);
             animParamDictionary.Add(GameVals.AnimParams.globeIsDancing, false);
         }

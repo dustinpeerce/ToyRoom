@@ -16,7 +16,7 @@ namespace ToyRoom
             Init(name, rank);
         }
 
-        public PersonTrigger(string name, float rank, string[] triggerCombos)
+        public PersonTrigger(string name, float rank, string[] triggerCombos = null)
         {
             Init(name, rank);
             t = triggerCombos;

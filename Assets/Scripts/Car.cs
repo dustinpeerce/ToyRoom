@@ -36,9 +36,10 @@ namespace ToyRoom
 			defaultMaterial = carMeshRenderer.material;
 			carStartPos = transform.position;
 
-			// Initialize Animator Parameter Dictionary
+            // Initialize Animator Parameter Dictionary
+            defaultToyKey = GameVals.AnimParams.carDefault;
             animParamDictionary = new Dictionary<string, bool>();
-            animParamDictionary.Add(GameVals.AnimParams.carDefault, false);
+            animParamDictionary.Add(defaultToyKey, false);
             animParamDictionary.Add(GameVals.AnimParams.carIsGazed, false);
             animParamDictionary.Add(GameVals.AnimParams.carIsDriving, false);
         }
