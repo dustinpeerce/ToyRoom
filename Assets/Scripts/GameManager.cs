@@ -49,8 +49,12 @@ namespace ToyRoom
             while (true)
             {
                 for (int p = 0; p < personPrefabs.Length; p++)
+                {
+                    personScripts[p].ClearTriggers();
                     for (int t = 0; t < toyPrefabs.Length; t++)
                         personScripts[p].UpdateViewParameters(toyScripts[t].GetAnimParams(), toyPrefabs[t].transform);
+                    personScripts[p].ProcessTriggers();
+                }
                 yield return new WaitForSeconds(0.35f);
             }
         }

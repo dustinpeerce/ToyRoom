@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// TODO: If a person hears a toy, they should turn towards the toy but NOT start animating
-
-// TODO: If a person sees a toy, they start animating
 
 // TODO: When not responding to events, people should wander around the table according to a NavMesh
 
@@ -16,6 +13,7 @@ namespace ToyRoom
     {
         // Public Attributes
         public Animator animator;
+        public bool debugLog;
 
         private Dictionary<string, PersonTrigger> triggers;
         private string urgentTriggerKey;
@@ -23,7 +21,6 @@ namespace ToyRoom
         private float lookSpeed = 4.0f;
         private float fovDistance = 3f;
         private float fovAngle = 60f;
-        private float hearingDistance = 2f;
 
 
         public void ClearTriggers()
@@ -39,6 +36,11 @@ namespace ToyRoom
 
         public void ProcessTriggers()
         {
+            if (debugLog && urgentTriggerKey == GameVals.AnimParams.houseIsOpen)
+            {
+                Debug.Log("Can See House is Open: " + CanSee(currentTarget));
+                Debug.Log("Can Hear House is Open: " + CanHear(currentTarget, triggers[urgentTriggerKey].Sound)); 
+            }
             // Set anim params based on most urgent trigger
             if (urgentTriggerKey != "" && triggers[urgentTriggerKey].Rank > 0 && CanSee(currentTarget))
             {
@@ -53,18 +55,21 @@ namespace ToyRoom
             {
                 animator.SetBool(GameVals.AnimParams.personDefault, true);
 
-                if (currentTarget && !CanHear(currentTarget))
+                if (currentTarget && !CanHear(currentTarget, triggers[urgentTriggerKey].Sound))
+                {
+                    urgentTriggerKey = "";
                     currentTarget = null;
+                }
             }
         }
 
 
         public void UpdateViewParameters(Dictionary<string, bool> animParams, Transform target)
         {
-            ClearTriggers();
             foreach (var animParam in animParams)
             {
-                triggers[animParam.Key].Value = (CanSee(target) || CanHear(target)) ? animParam.Value : false;
+                triggers[animParam.Key].Value = (CanSee(target) || CanHear(target, triggers[animParam.Key].Sound)) ? animParam.Value : false;
+                if (debugLog) Debug.Log(animParam.Key + ": " + triggers[animParam.Key].Value);
 
                 if (triggers[animParam.Key].Value && (urgentTriggerKey == "" || triggers[animParam.Key].Rank > triggers[urgentTriggerKey].Rank))
                 {
@@ -72,7 +77,6 @@ namespace ToyRoom
                     currentTarget = target;
                 }
             }
-            ProcessTriggers();
         }
 
 
@@ -85,9 +89,9 @@ namespace ToyRoom
 
 
         /// Determines whether Person can hear a given Toy
-        private bool CanHear(Transform toy)
+        private bool CanHear(Transform toy, float sound)
         {
-            return (toy.position - transform.position).magnitude < hearingDistance;
+            return (toy.position - transform.position).magnitude < sound;
         }
 
 

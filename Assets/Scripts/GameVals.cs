@@ -36,17 +36,17 @@ namespace ToyRoom
         }
 
         public static PersonTrigger[] personTriggers = {
-                new PersonTrigger(AnimParams.carDefault, 2),
-                new PersonTrigger(AnimParams.carIsGazed, 5, new string[] {AnimParams.carIsDriving}),
-                new PersonTrigger(AnimParams.carIsDriving, 10, new string[] {AnimParams.carIsGazed}),
-                new PersonTrigger(AnimParams.gunDefault, 1),
-                new PersonTrigger(AnimParams.gunIsGazed, 90),
-                new PersonTrigger(AnimParams.gunHasShotFront, 99),
-                new PersonTrigger(AnimParams.globeDefault, 1),
-                new PersonTrigger(AnimParams.globeIsSpinning, 20, new string[] {AnimParams.globeIsDancing}),
-                new PersonTrigger(AnimParams.globeIsDancing, 50, new string[] {AnimParams.globeIsSpinning}),
-                new PersonTrigger(AnimParams.houseDefault, 1),
-                new PersonTrigger(AnimParams.houseIsOpen, 50)
+                new PersonTrigger(AnimParams.carDefault, 2, 0),
+                new PersonTrigger(AnimParams.carIsGazed, 5, 0, new string[] {AnimParams.carIsDriving}),
+                new PersonTrigger(AnimParams.carIsDriving, 10, 2, new string[] {AnimParams.carIsGazed}),
+                new PersonTrigger(AnimParams.gunDefault, 1, 0),
+                new PersonTrigger(AnimParams.gunIsGazed, 90, 0.5f),
+                new PersonTrigger(AnimParams.gunHasShotFront, 99, 2),
+                new PersonTrigger(AnimParams.globeDefault, 1, 0),
+                new PersonTrigger(AnimParams.globeIsSpinning, 20, 1, new string[] {AnimParams.globeIsDancing}),
+                new PersonTrigger(AnimParams.globeIsDancing, 50, 2, new string[] {AnimParams.globeIsSpinning}),
+                new PersonTrigger(AnimParams.houseDefault, 1, 0),
+                new PersonTrigger(AnimParams.houseIsOpen, 50, 2f)
         };
 
     } // end of class

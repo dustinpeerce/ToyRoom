@@ -8,31 +8,32 @@ namespace ToyRoom
     {
         private string n;       // name
         private bool v;         // value
-        private float r;        // rank
+        private int r;          // rank of importance (1-100)
+        private float s;        // sound distance (0-5)
         private string[] t;     // trigger combinations
 
-        public PersonTrigger(string name, float rank)
+        public PersonTrigger(string name, int rank, float sound)
         {
-            Init(name, rank);
+            Init(name, rank, sound);
         }
 
-        public PersonTrigger(string name, float rank, string[] triggerCombos = null)
+        public PersonTrigger(string name, int rank, float sound, string[] triggerCombos = null)
         {
-            Init(name, rank);
+            Init(name, rank, sound);
             t = triggerCombos;
         }
 
-        private void Init(string name, float rank)
+        private void Init(string name, int rank, float sound)
         {
             n = name;
             v = false;
             r = rank;
+            s = sound;
         }
 
         public string Name
         {
             get { return n; }
-            set { n = value; }
         }
 
         public bool Value
@@ -41,16 +42,19 @@ namespace ToyRoom
             set { v = value; }
         }
 
-        public float Rank
+        public int Rank
         {
             get { return r; }
-            set { r = value; }
+        }
+
+        public float Sound
+        {
+            get { return s; }
         }
 
         public string[] TriggerCombos
         {
             get { return t; }
-            set { t = value; }
         }
 
     }
