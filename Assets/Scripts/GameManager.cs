@@ -74,6 +74,14 @@ namespace ToyRoom
             StartCoroutine(TrackViewOfToys());
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
+
     } // end of class
 
 } // end of namespace
