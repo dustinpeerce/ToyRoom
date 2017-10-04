@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 
@@ -11,16 +12,24 @@ namespace ToyRoom
 
     public class Person : MonoBehaviour
     {
+        public enum PlayerState { Idle, Engaged, Wandering }
+
         // Public Attributes
         public Animator animator;
         public bool debugLog;
 
         private Dictionary<string, PersonTrigger> triggers;
+        private Transform myTransform;
+        private NavMeshAgent agent;
         private string urgentTriggerKey;
         private Transform currentTarget;
         private float lookSpeed = 4.0f;
         private float fovDistance = 3f;
         private float fovAngle = 60f;
+        private float walkDistance = 8.0f;
+        private float brakeDistance = 0.1f;
+        private Vector3 destination;
+        private PlayerState currentState;
 
 
         public void ClearTriggers()
@@ -105,15 +114,41 @@ namespace ToyRoom
 
         private void Awake()
         {
+            currentState = PlayerState.Idle;
             triggers = new Dictionary<string, PersonTrigger>();
             for (int i = 0; i < GameVals.personTriggers.Length; i++)
                 triggers[GameVals.personTriggers[i].Name] = GameVals.personTriggers[i];
+
+            myTransform = transform;
+            agent = GetComponent<NavMeshAgent>();
         }
+
 
         private void FixedUpdate()
         {
             if (currentTarget)
+            {
                 LookAtToy(currentTarget, lookSpeed, Time.deltaTime);
+            }
+            else
+            {
+                if (agent.remainingDistance <= brakeDistance)
+                    SetNewDestination();
+
+                agent.SetDestination(destination);
+            }
+        }
+
+
+        private void SetNewDestination()
+        {
+            Vector3 dir = Random.insideUnitSphere * walkDistance;
+            dir += myTransform.position;
+
+            NavMeshHit hit;
+            NavMesh.SamplePosition(dir, out hit, walkDistance, 1);
+
+            destination = hit.position;
         }
 
     }
