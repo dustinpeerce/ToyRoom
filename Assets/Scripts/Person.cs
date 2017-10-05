@@ -5,14 +5,18 @@ using UnityEngine.AI;
 
 
 
-// TODO: When not responding to events, people should wander around the table according to a NavMesh
+// TODO: Modify the rank of person triggers for a better balance between 'wandering' and 'engaged'
+
+// TODO: Modify the speed/acceleration of the NavMeshAgent
+
+// TODO: Enforce a minimum amount of time for reactions. i.e. waving at the car should occur for at least two seconds
 
 namespace ToyRoom
 {
 
     public class Person : MonoBehaviour
     {
-        public enum PlayerState { Idle, Engaged, Wandering }
+        public enum PersonState { Idle, Engaged, Wandering }
 
         // Public Attributes
         public Animator animator;
@@ -29,11 +33,12 @@ namespace ToyRoom
         private float walkDistance = 8.0f;
         private float brakeDistance = 0.1f;
         private Vector3 destination;
-        private PlayerState currentState;
+        private PersonState currentState;
 
 
         public void ClearTriggers()
         {
+            CurrentState = PersonState.Idle;
             urgentTriggerKey = "";
             currentTarget = null;
 
@@ -45,31 +50,40 @@ namespace ToyRoom
 
         public void ProcessTriggers()
         {
-            if (debugLog && urgentTriggerKey == GameVals.AnimParams.houseIsOpen)
+            if (urgentTriggerKey != "" && triggers[urgentTriggerKey].Rank > 0)
             {
-                Debug.Log("Can See House is Open: " + CanSee(currentTarget));
-                Debug.Log("Can Hear House is Open: " + CanHear(currentTarget, triggers[urgentTriggerKey].Sound)); 
-            }
-            // Set anim params based on most urgent trigger
-            if (urgentTriggerKey != "" && triggers[urgentTriggerKey].Rank > 0 && CanSee(currentTarget))
-            {
-                animator.SetBool(urgentTriggerKey, true);
 
-                // Set compatible triggers to their respective values
-                if (triggers[urgentTriggerKey].TriggerCombos != null)
-                    foreach (var key in triggers[urgentTriggerKey].TriggerCombos)
-                        animator.SetBool(key, triggers[key].Value);
-            }
-            else
-            {
-                animator.SetBool(GameVals.AnimParams.personDefault, true);
+                float chanceToRespond = (triggers[urgentTriggerKey].Rank > 20) ? 1 : triggers[urgentTriggerKey].Rank / 100.0f;
+                float rand = Random.Range(0f, 1f);
 
-                if (currentTarget && !CanHear(currentTarget, triggers[urgentTriggerKey].Sound))
+                if (rand <= chanceToRespond)
                 {
-                    urgentTriggerKey = "";
-                    currentTarget = null;
+                    // Set anim params based on most urgent trigger
+                    if (CanSee(currentTarget))
+                    {
+                        CurrentState = PersonState.Engaged;
+                        animator.SetBool(urgentTriggerKey, true);
+
+                        // Set compatible triggers to their respective values
+                        if (triggers[urgentTriggerKey].TriggerCombos != null)
+                            foreach (var key in triggers[urgentTriggerKey].TriggerCombos)
+                                animator.SetBool(key, triggers[key].Value);
+                    }
+                    else
+                    {
+                        animator.SetBool(GameVals.AnimParams.personDefault, true);
+
+                        if (currentTarget && !CanHear(currentTarget, triggers[urgentTriggerKey].Sound))
+                        {
+                            urgentTriggerKey = "";
+                            currentTarget = null;
+                        }
+                    }
+                    return;
                 }
             }
+
+            CurrentState = PersonState.Wandering;
         }
 
 
@@ -78,7 +92,6 @@ namespace ToyRoom
             foreach (var animParam in animParams)
             {
                 triggers[animParam.Key].Value = (CanSee(target) || CanHear(target, triggers[animParam.Key].Sound)) ? animParam.Value : false;
-                if (debugLog) Debug.Log(animParam.Key + ": " + triggers[animParam.Key].Value);
 
                 if (triggers[animParam.Key].Value && (urgentTriggerKey == "" || triggers[animParam.Key].Rank > triggers[urgentTriggerKey].Rank))
                 {
@@ -114,28 +127,32 @@ namespace ToyRoom
 
         private void Awake()
         {
-            currentState = PlayerState.Idle;
             triggers = new Dictionary<string, PersonTrigger>();
             for (int i = 0; i < GameVals.personTriggers.Length; i++)
                 triggers[GameVals.personTriggers[i].Name] = GameVals.personTriggers[i];
 
             myTransform = transform;
             agent = GetComponent<NavMeshAgent>();
+
+            CurrentState = PersonState.Idle;
         }
 
 
         private void FixedUpdate()
         {
+
             if (currentTarget)
             {
                 LookAtToy(currentTarget, lookSpeed, Time.deltaTime);
             }
-            else
+            else if (agent.hasPath)
             {
-                if (agent.remainingDistance <= brakeDistance)
-                    SetNewDestination();
-
                 agent.SetDestination(destination);
+
+                if (agent.remainingDistance <= brakeDistance && CurrentState == PersonState.Wandering)
+                {
+                    SetNewDestination();
+                }
             }
         }
 
@@ -149,6 +166,26 @@ namespace ToyRoom
             NavMesh.SamplePosition(dir, out hit, walkDistance, 1);
 
             destination = hit.position;
+            agent.SetDestination(destination);
+        }
+
+        private PersonState CurrentState
+        {
+            get { return currentState; }
+            set
+            {
+                currentState = value;
+
+                if (value == PersonState.Wandering)
+                {
+                    SetNewDestination();
+                }
+                else
+                {
+                    destination = Vector3.zero;
+                    agent.ResetPath();
+                }
+            }
         }
 
     }
