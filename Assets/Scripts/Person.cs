@@ -9,7 +9,7 @@ using UnityEngine.AI;
 
 // TODO: Modify the speed/acceleration of the NavMeshAgent
 
-// TODO: Enforce a minimum amount of time for reactions. i.e. waving at the car should occur for at least two seconds
+// TODO: Find a smart way to update the Person's responses while still enforcing a minimum action time
 
 namespace ToyRoom
 {
@@ -26,7 +26,6 @@ namespace ToyRoom
         private Transform myTransform;
         private NavMeshAgent agent;
         private string urgentTriggerKey;
-        private Transform currentTarget;
         private float lookSpeed = 4.0f;
         private float fovDistance = 3f;
         private float fovAngle = 60f;
@@ -35,18 +34,25 @@ namespace ToyRoom
         private Vector3 destination;
         private PersonState currentState;
 
+        private float minActionTime = 0.0f;
+        private float startActionTime = 0.0f;
+
 
         public void ClearTriggers()
         {
-            CurrentState = PersonState.Idle;
-            urgentTriggerKey = "";
-            currentTarget = null;
+            if (startActionTime == 0)
+            {
+                urgentTriggerKey = "";
+                ResetAnimator();
+            }
+        }
 
+        private void ResetAnimator()
+        {
             // Reset all animator parameters to FALSE
             foreach (var parameter in animator.parameters)
                 animator.SetBool(parameter.name, false);
         }
-
 
         public void ProcessTriggers()
         {
@@ -59,7 +65,7 @@ namespace ToyRoom
                 if (rand <= chanceToRespond)
                 {
                     // Set anim params based on most urgent trigger
-                    if (CanSee(currentTarget))
+                    if (CanSee(triggers[urgentTriggerKey].Toy))
                     {
                         CurrentState = PersonState.Engaged;
                         animator.SetBool(urgentTriggerKey, true);
@@ -67,23 +73,38 @@ namespace ToyRoom
                         // Set compatible triggers to their respective values
                         if (triggers[urgentTriggerKey].TriggerCombos != null)
                             foreach (var key in triggers[urgentTriggerKey].TriggerCombos)
-                                animator.SetBool(key, triggers[key].Value);
+                                animator.SetBool(key, (triggers[key].CanSee || triggers[key].CanHear));
+
+                        if (chanceToRespond < 1f)
+                        {
+                            minActionTime = 3.0f;
+                            startActionTime = Time.time;
+                        }
                     }
                     else
                     {
-                        animator.SetBool(GameVals.AnimParams.personDefault, true);
+                        CurrentState = PersonState.Idle;
 
-                        if (currentTarget && !CanHear(currentTarget, triggers[urgentTriggerKey].Sound))
+                        if (urgentTriggerKey != "" && !CanHear(triggers[urgentTriggerKey].Toy, triggers[urgentTriggerKey].Sound))
                         {
                             urgentTriggerKey = "";
-                            currentTarget = null;
+                        }
+
+                        if (chanceToRespond < 1f)
+                        {
+                            minActionTime = 3.0f;
+                            startActionTime = Time.time;
                         }
                     }
                     return;
                 }
             }
 
-            CurrentState = PersonState.Wandering;
+            if (startActionTime == 0)
+            {
+                //ResetAnimator();
+                CurrentState = PersonState.Wandering;
+            }
         }
 
 
@@ -91,12 +112,16 @@ namespace ToyRoom
         {
             foreach (var animParam in animParams)
             {
-                triggers[animParam.Key].Value = (CanSee(target) || CanHear(target, triggers[animParam.Key].Sound)) ? animParam.Value : false;
+                triggers[animParam.Key].Toy = target;
+                bool see = CanSee(target) ? animParam.Value : false;
+                bool hear = CanHear(target, triggers[animParam.Key].Sound) ? animParam.Value : false;
+                triggers[animParam.Key].CanSee = see;
+                triggers[animParam.Key].CanHear = hear;
 
-                if (triggers[animParam.Key].Value && (urgentTriggerKey == "" || triggers[animParam.Key].Rank > triggers[urgentTriggerKey].Rank))
+                if ((see || hear) && (urgentTriggerKey == "" || triggers[animParam.Key].Rank > triggers[urgentTriggerKey].Rank))
                 {
                     urgentTriggerKey = animParam.Key;
-                    currentTarget = target;
+                    startActionTime = 0;
                 }
             }
         }
@@ -135,15 +160,20 @@ namespace ToyRoom
             agent = GetComponent<NavMeshAgent>();
 
             CurrentState = PersonState.Idle;
+            urgentTriggerKey = "";
         }
 
 
         private void FixedUpdate()
         {
-
-            if (currentTarget)
+            if (startActionTime > 0 && (Time.time - startActionTime > minActionTime))
             {
-                LookAtToy(currentTarget, lookSpeed, Time.deltaTime);
+                startActionTime = 0;
+                urgentTriggerKey = "";
+            }
+            if (urgentTriggerKey != "")
+            {
+                LookAtToy(triggers[urgentTriggerKey].Toy, lookSpeed, Time.deltaTime);
             }
             else if (agent.hasPath)
             {
@@ -176,14 +206,16 @@ namespace ToyRoom
             {
                 currentState = value;
 
-                if (value == PersonState.Wandering)
+                destination = Vector3.zero;
+                agent.ResetPath();
+
+                if (value == PersonState.Idle)
+                {
+                    animator.SetBool(GameVals.AnimParams.personDefault, true);
+                }
+                else if (value == PersonState.Wandering)
                 {
                     SetNewDestination();
-                }
-                else
-                {
-                    destination = Vector3.zero;
-                    agent.ResetPath();
                 }
             }
         }

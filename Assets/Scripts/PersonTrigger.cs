@@ -6,56 +6,71 @@ namespace ToyRoom
 {
     public class PersonTrigger
     {
-        private string n;       // name
-        private bool v;         // value
-        private int r;          // rank of importance (1-100)
-        private float s;        // sound distance (0-5)
-        private string[] t;     // trigger combinations
+        private string name;                // name
+        private bool canSee;                // can see the trigger
+        private bool canHear;               // can here the trigger
+        private int rank;                   // rank of importance (1-100)
+        private float sound;                // sound distance (0-5)
+        private string[] triggerCombos;     // trigger combinations
+        private Transform toy;              // The toy transform responsible for the trigger
 
-        public PersonTrigger(string name, int rank, float sound)
+        public PersonTrigger(string n, int r, float s)
         {
-            Init(name, rank, sound);
+            Init(n, r, s);
         }
 
-        public PersonTrigger(string name, int rank, float sound, string[] triggerCombos = null)
+        public PersonTrigger(string n, int r, float s, string[] tc = null)
         {
-            Init(name, rank, sound);
-            t = triggerCombos;
+            Init(n, r, s);
+            triggerCombos = tc;
         }
 
-        private void Init(string name, int rank, float sound)
+        private void Init(string n, int r, float s)
         {
-            n = name;
-            v = false;
-            r = rank;
-            s = sound;
+            name = n;
+            rank = r;
+            sound = s;
+            canSee = false;
+            canHear = false;
+            toy = null;
         }
 
         public string Name
         {
-            get { return n; }
+            get { return name; }
         }
 
-        public bool Value
+        public bool CanSee
         {
-            get { return v; }
-            set { v = value; }
+            get { return canSee; }
+            set { canSee = value; }
+        }
+
+        public bool CanHear
+        {
+            get { return canHear; }
+            set { canHear = value; }
         }
 
         public int Rank
         {
-            get { return r; }
+            get { return rank; }
         }
 
         public float Sound
         {
-            get { return s; }
+            get { return sound; }
         }
 
         public string[] TriggerCombos
         {
-            get { return t; }
+            get { return triggerCombos; }
         }
 
+        public Transform Toy
+        {
+            get { return toy; }
+            set { toy = value; }
+        }
     }
 }
