@@ -36,16 +36,16 @@ namespace ToyRoom
         }
 
         public static PersonTrigger[] personTriggers = {
-                new PersonTrigger(AnimParams.carDefault, 10, 0),
+                new PersonTrigger(AnimParams.carDefault, 5, 0),
                 new PersonTrigger(AnimParams.carIsGazed, 15, 0, new string[] {AnimParams.carIsDriving}),
                 new PersonTrigger(AnimParams.carIsDriving, 20, 2, new string[] {AnimParams.carIsGazed}),
-                new PersonTrigger(AnimParams.gunDefault, 1, 0),
+                new PersonTrigger(AnimParams.gunDefault, 0, 0),
                 new PersonTrigger(AnimParams.gunIsGazed, 100, 0.5f),
                 new PersonTrigger(AnimParams.gunHasShotFront, 100, 2),
-                new PersonTrigger(AnimParams.globeDefault, 1, 0),
+                new PersonTrigger(AnimParams.globeDefault, 0, 0),
                 new PersonTrigger(AnimParams.globeIsSpinning, 25, 1, new string[] {AnimParams.globeIsDancing}),
                 new PersonTrigger(AnimParams.globeIsDancing, 50, 2, new string[] {AnimParams.globeIsSpinning}),
-                new PersonTrigger(AnimParams.houseDefault, 1, 0),
+                new PersonTrigger(AnimParams.houseDefault, 0, 0),
                 new PersonTrigger(AnimParams.houseIsOpen, 50, 2f)
         };
 

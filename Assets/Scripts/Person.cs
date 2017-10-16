@@ -26,6 +26,7 @@ namespace ToyRoom
         private Transform myTransform;
         private NavMeshAgent agent;
         private string urgentTriggerKey;
+        private string actionTriggerKey;
         private float lookSpeed = 4.0f;
         private float fovDistance = 3f;
         private float fovAngle = 60f;
@@ -40,11 +41,7 @@ namespace ToyRoom
 
         public void ClearTriggers()
         {
-            if (startActionTime == 0)
-            {
-                urgentTriggerKey = "";
-                ResetAnimator();
-            }
+            urgentTriggerKey = "";
         }
 
         private void ResetAnimator()
@@ -56,10 +53,19 @@ namespace ToyRoom
 
         public void ProcessTriggers()
         {
-            if (urgentTriggerKey != "" && triggers[urgentTriggerKey].Rank > 0)
+            // Urgent Trigger did change
+            if (urgentTriggerKey != "" && urgentTriggerKey != actionTriggerKey)
             {
-
-                float chanceToRespond = (triggers[urgentTriggerKey].Rank > 20) ? 1 : triggers[urgentTriggerKey].Rank / 100.0f;
+                ResetAnimator();
+                float chanceToRespond;
+                if (actionTriggerKey != "")
+                {
+                    chanceToRespond = (triggers[urgentTriggerKey].Rank > 20 || (startActionTime != 0 && triggers[actionTriggerKey].Rank <= 20)) ? 1 : triggers[urgentTriggerKey].Rank / 100.0f;
+                }
+                else
+                {
+                    chanceToRespond = (triggers[urgentTriggerKey].Rank > 20) ? 1 : triggers[urgentTriggerKey].Rank / 100.0f;
+                }
                 float rand = Random.Range(0f, 1f);
 
                 if (rand <= chanceToRespond)
@@ -74,35 +80,27 @@ namespace ToyRoom
                         if (triggers[urgentTriggerKey].TriggerCombos != null)
                             foreach (var key in triggers[urgentTriggerKey].TriggerCombos)
                                 animator.SetBool(key, (triggers[key].CanSee || triggers[key].CanHear));
-
-                        if (chanceToRespond < 1f)
-                        {
-                            minActionTime = 3.0f;
-                            startActionTime = Time.time;
-                        }
                     }
                     else
                     {
                         CurrentState = PersonState.Idle;
-
-                        if (urgentTriggerKey != "" && !CanHear(triggers[urgentTriggerKey].Toy, triggers[urgentTriggerKey].Sound))
-                        {
-                            urgentTriggerKey = "";
-                        }
-
-                        if (chanceToRespond < 1f)
-                        {
-                            minActionTime = 3.0f;
-                            startActionTime = Time.time;
-                        }
                     }
+
+                    ActionTriggerKey = urgentTriggerKey;
                     return;
+                }
+                else
+                {
+                    ActionTriggerKey = "";
                 }
             }
 
+
+            // Urgent Trigger did not change
             if (startActionTime == 0)
             {
-                //ResetAnimator();
+                ResetAnimator();
+                ActionTriggerKey = "";
                 CurrentState = PersonState.Wandering;
             }
         }
@@ -121,7 +119,6 @@ namespace ToyRoom
                 if ((see || hear) && (urgentTriggerKey == "" || triggers[animParam.Key].Rank > triggers[urgentTriggerKey].Rank))
                 {
                     urgentTriggerKey = animParam.Key;
-                    startActionTime = 0;
                 }
             }
         }
@@ -161,6 +158,7 @@ namespace ToyRoom
 
             CurrentState = PersonState.Idle;
             urgentTriggerKey = "";
+            ActionTriggerKey = "";
         }
 
 
@@ -168,8 +166,7 @@ namespace ToyRoom
         {
             if (startActionTime > 0 && (Time.time - startActionTime > minActionTime))
             {
-                startActionTime = 0;
-                urgentTriggerKey = "";
+                ActionTriggerKey = "";
             }
             if (urgentTriggerKey != "")
             {
@@ -216,6 +213,24 @@ namespace ToyRoom
                 else if (value == PersonState.Wandering)
                 {
                     SetNewDestination();
+                }
+            }
+        }
+
+        private string ActionTriggerKey
+        {
+            get { return actionTriggerKey; }
+            set {
+                actionTriggerKey = value;
+                if (actionTriggerKey == "")
+                {
+                    startActionTime = 0;
+                    minActionTime = 0;
+                }
+                else
+                {
+                    startActionTime = Time.time;
+                    minActionTime = (triggers[actionTriggerKey].Rank <= 20) ? 4.0f : Mathf.Infinity;
                 }
             }
         }
