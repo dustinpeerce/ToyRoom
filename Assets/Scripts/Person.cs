@@ -44,6 +44,7 @@ namespace ToyRoom
             urgentTriggerKey = "";
         }
 
+
         private void ResetAnimator()
         {
             // Reset all animator parameters to FALSE
@@ -51,9 +52,19 @@ namespace ToyRoom
                 animator.SetBool(parameter.name, false);
         }
 
+
+        public void UpdateTriggerCombos()
+        {
+            // Set compatible triggers to their respective values
+            if (triggers[urgentTriggerKey].TriggerCombos != null)
+                foreach (var key in triggers[urgentTriggerKey].TriggerCombos)
+                    animator.SetBool(key, (triggers[key].CanSee || triggers[key].CanHear));
+        }
+
+
         public void ProcessTriggers()
         {
-            // Urgent Trigger did change
+            // If Urgent Trigger is different from Action Trigger
             if (urgentTriggerKey != "" && urgentTriggerKey != actionTriggerKey)
             {
                 ResetAnimator();
@@ -75,11 +86,7 @@ namespace ToyRoom
                     {
                         CurrentState = PersonState.Engaged;
                         animator.SetBool(urgentTriggerKey, true);
-
-                        // Set compatible triggers to their respective values
-                        if (triggers[urgentTriggerKey].TriggerCombos != null)
-                            foreach (var key in triggers[urgentTriggerKey].TriggerCombos)
-                                animator.SetBool(key, (triggers[key].CanSee || triggers[key].CanHear));
+                        UpdateTriggerCombos();
                     }
                     else
                     {
@@ -94,13 +101,15 @@ namespace ToyRoom
                     ActionTriggerKey = "";
                 }
             }
+            // If Urgent Trigger matches the Action Trigger
+            else if (urgentTriggerKey != "" && urgentTriggerKey == actionTriggerKey)
+            {
+                UpdateTriggerCombos();
+            }
 
-
-            // Urgent Trigger did not change
+            // If not responding to an Urgent Trigger and no current Action
             if (startActionTime == 0)
             {
-                ResetAnimator();
-                ActionTriggerKey = "";
                 CurrentState = PersonState.Wandering;
             }
         }
@@ -212,6 +221,8 @@ namespace ToyRoom
                 }
                 else if (value == PersonState.Wandering)
                 {
+                    ResetAnimator();
+                    ActionTriggerKey = "";
                     SetNewDestination();
                 }
             }
