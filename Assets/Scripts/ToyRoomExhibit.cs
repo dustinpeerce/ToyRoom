@@ -37,6 +37,14 @@ namespace ToyRoom
             SceneManager.LoadScene("ToyRoom");
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
+
     } // end of class
 
 } // end of namespace

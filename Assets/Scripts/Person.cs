@@ -4,13 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-
-// TODO: Modify the rank of person triggers for a better balance between 'wandering' and 'engaged'
-
-// TODO: Modify the speed/acceleration of the NavMeshAgent
-
-// TODO: Find a smart way to update the Person's responses while still enforcing a minimum action time
-
 namespace ToyRoom
 {
 
@@ -21,6 +14,7 @@ namespace ToyRoom
         // Public Attributes
         public Animator animator;
         public bool debugLog;
+        public bool canWander = false;
 
         private Dictionary<string, PersonTrigger> triggers;
         private Transform myTransform;
@@ -108,7 +102,7 @@ namespace ToyRoom
             }
 
             // If not responding to an Urgent Trigger and no current Action
-            if (startActionTime == 0)
+            if (startActionTime == 0 && canWander)
             {
                 CurrentState = PersonState.Wandering;
             }
@@ -164,6 +158,8 @@ namespace ToyRoom
 
             myTransform = transform;
             agent = GetComponent<NavMeshAgent>();
+            agent.updatePosition = true;
+            agent.updateRotation = false;
 
             CurrentState = PersonState.Idle;
             urgentTriggerKey = "";
@@ -202,7 +198,18 @@ namespace ToyRoom
             NavMesh.SamplePosition(dir, out hit, walkDistance, 1);
 
             destination = hit.position;
+            InstantlyTurn(destination);
             agent.SetDestination(destination);
+        }
+
+        private void InstantlyTurn(Vector3 destination)
+        {
+            //When on target -> dont rotate!
+            if ((destination - transform.position).magnitude < 0.1f) return;
+
+            Vector3 direction = (destination - transform.position).normalized;
+            Quaternion qDir = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, qDir, Time.deltaTime * lookSpeed);
         }
 
         private PersonState CurrentState
@@ -224,6 +231,7 @@ namespace ToyRoom
                     ResetAnimator();
                     ActionTriggerKey = "";
                     SetNewDestination();
+                    animator.SetBool(GameVals.AnimParams.wandering, true);
                 }
             }
         }

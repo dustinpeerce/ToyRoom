@@ -13,6 +13,7 @@ namespace ToyRoom
         {
             // Person
             public static string personDefault = "Default";
+            public static string wandering = "Wandering";
 
             // Car related
             public static string carDefault = "CarDefault";
